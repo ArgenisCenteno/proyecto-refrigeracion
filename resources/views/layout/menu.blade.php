@@ -1,118 +1,74 @@
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
-<ul class="sidebar-nav" id="sidebar-nav">
+  <ul class="sidebar-nav" id="sidebar-nav">
 
-  <li class="nav-item">
-    <a class="nav-link " href="{{route('home')}}">
-      <i class="bi bi-grid"></i>
-      <span>Dashboard</span>
-    </a>
-  </li><!-- End Dashboard Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-menu-button-wide"></i><span>Almacen</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="{{route('categorias.index')}}">
-          <i class="bi bi-circle"></i><span>Categorías</span>
+  @if(Auth::user()->hasRole('superAdmin'))
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('sectores.index') }}">
+            <i class="bi bi-geo-alt"></i><span>Sectores</span>
         </a>
-      </li>
-      <li>
-        <a href="{{route('subcategorias.index')}}">
-          <i class="bi bi-circle"></i><span>Subcategorías</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{route('almacen')}}">
-          <i class="bi bi-circle"></i><span>Productos</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bi bi-circle"></i><span>Promociones</span>
-        </a>
-      </li>
-      
-    </ul>
-  </li><!-- End Components Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-journal-text"></i><span>Ventas</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a  href="{{route('pagos.index')}}">
-          <i class="bi bi-circle"></i><span>Mis pagos</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{route('ventas.index')}}">
-          <i class="bi bi-circle"></i><span>Ventas</span>
-        </a>
-      </li>
-      <li>
-        <a href="forms-editors.html">
-          <i class="bi bi-circle"></i><span>Reportes</span>
-        </a>
-      </li>
-     
-    </ul>
-  </li><!-- End Forms Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-layout-text-window-reverse"></i><span>Entradas</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="#">
-          <i class="bi bi-circle"></i><span>Compras</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bi bi-circle"></i><span>Recibos</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{route('proveedores.index')}}">
-          <i class="bi bi-circle"></i><span>Proveedores</span>
-        </a>
-      </li>
-    </ul>
-  </li><!-- End Tables Nav -->
-
-  <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-bar-chart"></i><span>Reportes</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="charts-chartjs.html">
-          <i class="bi bi-circle"></i><span>Productos</span>
-        </a>
-      </li>
-      <li>
-        <a href="charts-apexcharts.html">
-          <i class="bi bi-circle"></i><span>Clientes</span>
-        </a>
-      </li>
-      <li>
-        <a href="charts-echarts.html">
-          <i class="bi bi-circle"></i><span>Proveedores</span>
-        </a>
-      </li>
-    </ul>
-  </li><!-- End Charts Nav -->
+    </li>
 
 
-</ul>
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('vehiculos.index')}}">
+        <i class="bi bi-truck"></i><span>Vehículos</span>
+      </a>
+    </li>
 
-</aside><!-- End Sidebar-->
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('servicios.index')}}">
+        <i class="bi bi-wrench"></i><span>Servicios</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('conductores.index')}}">
+        <i class="bi bi-person-badge"></i><span>Conductores</span>
+      </a>
+    </li>
+   
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('pasajeros.index')}}">
+        <i class="bi bi-people"></i><span>Pasajeros</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('usuarios.index')}}">
+        <i class="bi bi-person"></i><span>Usuarios</span>
+      </a>
+    </li>
+   
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('tramites.index')}}">
+        <i class="bi bi-car-front"></i><span>Tramites</span>
+      </a>
+    </li>
+    @endif
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('viajes.index')}}">
+        <i class="bi bi-car-front"></i><span>Viajes</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('cuentasPorCobrar.index')}}">
+        <i class="bi bi-wallet2"></i><span>Cuentas</span>
+      </a>
+    </li>
+    @if(Auth::user()->hasRole('superAdmin'))
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('reportes.index')}}">
+        <i class="bi bi-bar-chart-line"></i><span>Reportes</span>
+      </a>
+    </li>
+    @endif
+  </ul>
+
+</aside><!-- End Sidebar -->
+
 
     <script>
     /**

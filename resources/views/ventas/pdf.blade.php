@@ -58,7 +58,7 @@
     <div class="container">
 
         <header>
-            <h2>FRIONAX</h2>
+            <h2>Delivery</h2>
             <p>REPÚBLICA BOLIVARIANA DE VENEZUELA</p>
             <p>MUNICIPIO EZEQUIEL ZAMORA, ESTADO MONAGAS</p>
             <p>PUNTA DE MATA</p>

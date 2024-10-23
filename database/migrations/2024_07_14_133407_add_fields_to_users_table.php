@@ -18,6 +18,7 @@ class AddFieldsToUsersTable extends Migration
             $table->string('sector')->nullable();
             $table->string('calle')->nullable();
             $table->string('casa')->nullable();
+            $table->string('foto_perfil')->nullable();
             $table->string('status')->nullable();
         });
     }

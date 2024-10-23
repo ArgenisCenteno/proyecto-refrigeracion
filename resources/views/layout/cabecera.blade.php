@@ -4,9 +4,9 @@
   <div class="d-flex align-items-center justify-content-between">
     <a href="{{route('home')}}" class="logo d-flex align-items-center">
 
-      <span class="d-none d-lg-block">FRIONAX</span>
+      <span class="d-none d-lg-block">Delivery</span>
     </a>
-    <i class="bi bi-list toggle-sidebar-btn"></i>
+    
   </div><!-- End Logo -->
 
 
@@ -22,7 +22,7 @@
 
       <li class="nav-item dropdown">
 
-        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+      {{--  <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
           <span class="badge bg-primary badge-number">4</span>
         </a><!-- End Notification Icon -->
@@ -76,7 +76,7 @@
         </ul><!-- End Notification Dropdown Items -->
 
       </li><!-- End Notification Nav -->
-
+--}}
 
       <li class="nav-item dropdown pe-3">
 

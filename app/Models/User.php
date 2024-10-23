@@ -23,6 +23,7 @@ class User extends Authenticatable
         'referencia',
         'casa',
         'status',
+        'foto_perfil'
     ];
 
     protected $hidden = [
@@ -34,5 +35,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-   
+    // Relationship with Vehicle
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class, 'user_id');
+    }
+
+    // Relationship with Tramite
+    public function tramites()
+    {
+        return $this->hasMany(Tramite::class, 'user_id');
+    }
+
+    // Relationship with RegistroConductor
+    public function registroConductores()
+    {
+        return $this->hasMany(RegistroConductor::class, 'user_id');
+    }
 }

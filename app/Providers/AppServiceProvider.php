@@ -20,9 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('layouts.app', function ($view) {
-            $categorias = Categoria::all(); // Obtiene todas las categorías
-            $view->with('categorias', $categorias); // Las pasa a la vista
-        });
+       //
     }
 }

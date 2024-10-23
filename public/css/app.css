@@ -43,7 +43,7 @@
   --------------------------------------------------------------*/
   #main {
     margin-top: 60px;
-    padding: 20px 30px;
+    padding: 30px 30px;
     transition: all 0.3s;
   }
   
@@ -64,7 +64,7 @@
     font-size: 24px;
     margin-bottom: 0;
     font-weight: 600;
-    color: #012970;
+    color: #800b3c;
   }
   
   /*--------------------------------------------------------------
@@ -342,13 +342,13 @@
   
   .nav-tabs-bordered .nav-link:hover,
   .nav-tabs-bordered .nav-link:focus {
-    color: #4154f1;
+    color: #800b3c;
   }
   
   .nav-tabs-bordered .nav-link.active {
     background-color: #fff;
-    color: #4154f1;
-    border-bottom: 2px solid #4154f1;
+    color: #800b3c;
+    border-bottom: 2px solid #800b3c;
   }
   
   /*--------------------------------------------------------------
@@ -372,7 +372,7 @@
   .logo span {
     font-size: 26px;
     font-weight: 700;
-    color: #012970;
+    color: #ffff;
     font-family: "Nunito", sans-serif;
   }
   
@@ -381,7 +381,8 @@
     z-index: 997;
     height: 60px;
     box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-    background-color: #fff;
+    background-color: #800b3c;
+    color: white !important;
     padding-left: 20px;
     /* Toggle Sidebar Button */
     /* Search Bar */
@@ -391,14 +392,10 @@
     font-size: 32px;
     padding-left: 10px;
     cursor: pointer;
-    color: #012970;
+    color: #fff;
   }
   
-  .header .search-bar {
-    min-width: 360px;
-    padding: 0 20px;
-  }
-  
+ 
   @media (max-width: 1199px) {
     .header .search-bar {
       position: fixed;
@@ -474,7 +471,7 @@
   }
   
   .header-nav .nav-profile {
-    color: #012970;
+    color: #ffff;
   }
   
   .header-nav .nav-profile img {
@@ -684,7 +681,7 @@
     align-items: center;
     font-size: 15px;
     font-weight: 600;
-    color: #4154f1;
+    color: #800b3c;
     transition: 0.3;
     background: #f6f9ff;
     padding: 10px 15px;
@@ -694,11 +691,11 @@
   .sidebar-nav .nav-link i {
     font-size: 16px;
     margin-right: 10px;
-    color: #4154f1;
+    color: #800b3c;
   }
   
   .sidebar-nav .nav-link.collapsed {
-    color: #012970;
+    color: #800b3c;
     background: #fff;
   }
   
@@ -750,11 +747,11 @@
   
   .sidebar-nav .nav-content a:hover,
   .sidebar-nav .nav-content a.active {
-    color: #4154f1;
+    color: #800b3c;
   }
   
   .sidebar-nav .nav-content a.active i {
-    background-color: #4154f1;
+    background-color: #800b3c;
   }
   
   /*--------------------------------------------------------------

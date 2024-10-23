@@ -21,6 +21,7 @@ class RegisterController extends Controller
 
     protected function validator(array $data)
 {
+  //  dd($data);
     return Validator::make($data, [
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -28,12 +29,12 @@ class RegisterController extends Controller
         'sector' => 'nullable|string|max:255',
         'calle' => 'nullable|string|max:255',
         'genero' => 'nullable|string|max:255',
-        'referencia' => 'nullable|string|max:255',
+        'telefono' => 'nullable|string|max:255',
         'casa' => 'nullable|string|max:255',
         'cedula' => ['required', 'integer', 'digits_between:7,8'], // Add this line
     ]);
 }
-
+  
 
     protected function create(array $data)
     {
@@ -46,7 +47,8 @@ class RegisterController extends Controller
             'calle' => $data['calle'],   // Include calle
             'casa' => $data['casa'],     // Include casa
             'genero' => $data['genero'],     // Include casa
-            'referencia' => $data['referencia'],     // Include casa
+            'telefono' => $data['telefono'],     // Include casa
+          
             'password' => Hash::make($data['password']),
             'status' => 'Activo', // Set status to 'Activo'
 

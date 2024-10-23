@@ -4,234 +4,114 @@
 <main id="main" class="main">
 
 <div class="pagetitle">
-  <h1>Dashboard</h1>
-  <nav>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-      <li class="breadcrumb-item active">Panel de Administración</li>
-    </ol>
-  </nav>
+  <h1>Bienvenido</h1>
 </div><!-- End Page Title -->
+<section>
+    <div class="row">
 
-<section class="section dashboard">
-  <div class="row">
-
-    <!-- Left side columns -->
-    <div class="col-lg-12">
-      <div class="row">
-
-        <!-- Sales Card -->
-        <div class="col-xxl-4 col-md-6">
-          <div class="card info-card sales-card" >
-
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Hoy</a></li>
-                <li><a class="dropdown-item" href="#">Este mes</a></li>
-                <li><a class="dropdown-item" href="#">Este año</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Ventas <span>| Hoy</span></h5>
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-cart"></i>
+        <!-- Tramites Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-1">Trámites</h5>
+                        <p class="h2">{{ $totalTramites }}</p> <!-- Cambié 'display-4' por 'h2' -->
+                    </div>
+                    <i class="fas fa-file-alt fa-2x"></i> <!-- Cambié 'fa-3x' por 'fa-2x' -->
                 </div>
-                <div class="ps-3">
-                  <h6>145</h6>
-                  <span class="text-success small pt-1 fw-bold">17%</span> <span class="text-muted small pt-2 ps-1">Incremento</span>
+            </div>
+        </div>
 
+        <!-- Pasajeros Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-1">Pasajeros</h5>
+                        <p class="h2">{{ $totalPasajeros }}</p> <!-- Cambié 'display-4' por 'h2' -->
+                    </div>
+                    <i class="fas fa-users fa-2x"></i> <!-- Cambié 'fa-3x' por 'fa-2x' -->
                 </div>
-              </div>
             </div>
+        </div>
 
-          </div>
-        </div><!-- End Sales Card -->
-
-        <!-- Revenue Card -->
-        <div class="col-xxl-4 col-md-6">
-          <div class="card info-card revenue-card">
-
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Hoy</a></li>
-                <li><a class="dropdown-item" href="#">Este mes</a></li>
-                <li><a class="dropdown-item" href="#">Este año</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Ganancias <span>| Este mes</span></h5>
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-currency-dollar"></i>
+        <!-- Conductores Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-1">Conductores</h5>
+                        <p class="h2">{{ $totalConductores }}</p> <!-- Cambié 'display-4' por 'h2' -->
+                    </div>
+                    <i class="fas fa-car fa-2x"></i> <!-- Cambié 'fa-3x' por 'fa-2x' -->
                 </div>
-                <div class="ps-3">
-                  <h6>3,264 Bs</h6>
-                  <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">incremento</span>
+            </div>
+        </div>
 
+        <!-- Vehículos Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-warning text-white h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-1">Vehículos</h5>
+                        <p class="h2">{{ $totalVehiculos }}</p> <!-- Cambié 'display-4' por 'h2' -->
+                    </div>
+                    <i class="fas fa-truck fa-2x"></i> <!-- Cambié 'fa-3x' por 'fa-2x' -->
                 </div>
-              </div>
             </div>
+        </div>
 
-          </div>
-        </div><!-- End Revenue Card -->
-
-        <!-- Customers Card -->
-        <div class="col-xxl-4 col-xl-12">
-
-          <div class="card info-card customers-card">
-
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Hoy</a></li>
-                <li><a class="dropdown-item" href="#">Este mes</a></li>
-                <li><a class="dropdown-item" href="#">Este año</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Clientes <span>| Este año</span></h5>
-
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-people"></i>
+        <!-- Conductores Registrados Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-danger text-white h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-1">Conductores Registrados</h5>
+                        <p class="h2">{{ $totalConductoresRegistrados }}</p> <!-- Cambié 'display-4' por 'h2' -->
+                    </div>
+                    <i class="fas fa-user-check fa-2x"></i> <!-- Cambié 'fa-3x' por 'fa-2x' -->
                 </div>
-                <div class="ps-3">
-                  <h6>1244</h6>
-                  <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decremento</span>
+            </div>
+        </div>
 
+        <!-- Servicios Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-secondary text-white h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-1">Servicios</h5>
+                        <p class="h2">{{ $totalServicios }}</p> <!-- Cambié 'display-4' por 'h2' -->
+                    </div>
+                    <i class="fas fa-concierge-bell fa-2x"></i> <!-- Cambié 'fa-3x' por 'fa-2x' -->
                 </div>
-              </div>
-
             </div>
-          </div>
+        </div>
 
-        </div><!-- End Customers Card -->
-
-        <!-- Reports -->
-        <div class="col-12">
-          <div class="card">
-
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Hoy</a></li>
-                <li><a class="dropdown-item" href="#">Este mes</a></li>
-                <li><a class="dropdown-item" href="#">Este año</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Reporte <span>/Hoy</span></h5>
-
-              <!-- Line Chart -->
-              <div id="reportsChart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new ApexCharts(document.querySelector("#reportsChart"), {
-                    series: [{
-                      name: 'Ventas',
-                      data: [31, 40, 28, 51, 42, 82, 56],
-                    }, {
-                      name: 'Ganancias',
-                      data: [11, 32, 45, 32, 34, 52, 41]
-                    }, {
-                      name: 'Clientes',
-                      data: [15, 11, 32, 18, 9, 24, 11]
-                    }],
-                    chart: {
-                      height: 350,
-                      type: 'area',
-                      toolbar: {
-                        show: false
-                      },
-                    },
-                    markers: {
-                      size: 4
-                    },
-                    colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                    fill: {
-                      type: "gradient",
-                      gradient: {
-                        shadeIntensity: 1,
-                        opacityFrom: 0.3,
-                        opacityTo: 0.4,
-                        stops: [0, 90, 100]
-                      }
-                    },
-                    dataLabels: {
-                      enabled: false
-                    },
-                    stroke: {
-                      curve: 'smooth',
-                      width: 2
-                    },
-                    xaxis: {
-                      type: 'datetime',
-                      categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                    },
-                    tooltip: {
-                      x: {
-                        format: 'dd/MM/yy HH:mm'
-                      },
-                    }
-                  }).render();
-                });
-              </script>
-              <!-- End Line Chart -->
-
-            </div>
-
-          </div>
-        </div><!-- End Reports -->
-
+        <!-- Pagos Card -->
         
+        <!-- Viajes Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light text-dark h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-1">Viajes</h5>
+                        <p class="h2">{{ $totalViajes }}</p> <!-- Cambié 'display-4' por 'h2' -->
+                    </div>
+                    <i class="fas fa-route fa-2x"></i> <!-- Cambié 'fa-3x' por 'fa-2x' -->
+                </div>
+            </div>
+        </div>
 
-
-      </div>
-    </div><!-- End Left side columns -->
-
-    <!-- Right side columns -->
-    <div class="col-lg-4">
-
-     
-
-      
-
-
-    </div><!-- End Right side columns -->
-
-  </div>
+    </div>
 </section>
 
+
 </main><!-- End #main -->
+
 <!--begin::Footer-->
 @include('layout.script')
 <script src="{{ asset('js/adminlte.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 @endsection
