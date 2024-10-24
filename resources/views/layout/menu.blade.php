@@ -69,15 +69,11 @@
     </a>
     <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="#">
+        <a href="{{route('compras.index')}}">
           <i class="bi bi-circle"></i><span>Compras</span>
         </a>
       </li>
-      <li>
-        <a href="#">
-          <i class="bi bi-circle"></i><span>Recibos</span>
-        </a>
-      </li>
+    
       <li>
         <a href="{{route('proveedores.index')}}">
           <i class="bi bi-circle"></i><span>Proveedores</span>
@@ -92,18 +88,18 @@
     </a>
     <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="charts-chartjs.html">
+        <a href="{{route('productoss.export')}}">
           <i class="bi bi-circle"></i><span>Productos</span>
         </a>
       </li>
       <li>
-        <a href="charts-apexcharts.html">
-          <i class="bi bi-circle"></i><span>Clientes</span>
+        <a href="{{route('ventas.export')}}">
+          <i class="bi bi-circle"></i><span>Ventas</span>
         </a>
       </li>
       <li>
-        <a href="charts-echarts.html">
-          <i class="bi bi-circle"></i><span>Proveedores</span>
+        <a href="{{route('compras.export')}}">
+          <i class="bi bi-circle"></i><span>Compras</span>
         </a>
       </li>
     </ul>

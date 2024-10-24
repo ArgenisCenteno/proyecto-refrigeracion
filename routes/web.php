@@ -1,5 +1,7 @@
 <?php
 
+use App\Exports\ComprasExport;
+use App\Exports\VentasExport;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\CarritoController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VentaController;
 use App\Models\Producto;
 use Illuminate\Support\Facades\Route;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +41,8 @@ Route::get('/category/{id}', [CarritoController::class, 'productosPorCategoria']
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/checkout', [CarritoController::class, 'checkout'])->name('pagar');
 Route::post('/pagarCuenta', [PagoController::class, 'pagarCuenta'])->name('pagarCuenta');
 
@@ -49,7 +54,6 @@ Route::post('notificaciones/mark-all-read', [NotificacionController::class, 'mar
 Route::delete('notificaciones/{id}', [NotificacionController::class, 'destroy'])->name('notificaciones.destroy');
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 /* ALMACEN DE PRODUCTOS */
 Route::get('/almacen', [ProductoController::class, 'almacen'])->name('almacen');
 Route::post('/registrar-producto', [ProductoController::class, 'store'])->name('registrar-producto');
@@ -61,7 +65,13 @@ Route::post('/agregarImagen/{id}', [ProductoController::class, 'agregarImagen'])
 /* CATEGORIAS Y SUBCATEGORIAS*/
 Route::resource('categorias', App\Http\Controllers\CategoriaController::class);
 Route::resource('subcategorias', App\Http\Controllers\SubCategoriaController::class);
-
+Route::get('/datos/export', [ProductoController::class, 'export'])->name('productoss.export');
+Route::get('ventas/export', function () {
+    return Excel::download(new VentasExport, 'ventas.xlsx');
+})->name('ventas.export');
+Route::get('compras/export', function () {
+    return Excel::download(new ComprasExport, 'compras.xlsx');
+})->name('compras.export');
 /* CAJAS */
 Route::resource('cajas', App\Http\Controllers\CajaController::class);
 Route::get('/aperturar/{id}', [CajaController::class, 'aperturarCaja'])->name('cajas.aperturar');
@@ -80,7 +90,6 @@ Route::get('/producto/{id}', [VentaController::class, 'obtenerProducto'])->name(
 
 /* TASAS, MONEDAS E IMPUESTOS */
 Route::resource('tasas', App\Http\Controllers\TasasController::class);
-});
 
 /* COMPRAS */
 Route::resource('compras', App\Http\Controllers\CompraController::class);
@@ -99,7 +108,12 @@ Route::get('/pdfPago/{id}', [PdfController::class, 'pdfPago'])->name('pagos.pdf'
 /* PAGOS */
 Route::resource('usuarios', App\Http\Controllers\UserController::class);
 Route::get('/pdfUser/{id}', [PdfController::class, 'pdfEstadoCuenta'])->name('usuarios.pdf');
+});
+
+
 // Ruta de inicio de sesión
+Route::post('/buscar', [ProductoController::class, 'buscar'])->name('buscar');
+
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
 Route::post('/login', [LoginController::class, 'login']);

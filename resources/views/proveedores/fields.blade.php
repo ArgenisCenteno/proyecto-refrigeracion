@@ -1,8 +1,8 @@
 <div class="row">
-    <!-- Razón Social Field -->
+    <!-- RIF Field -->
     <div class="form-group col-sm-12 col-md-4">
-        {!! Form::label('razon_social', 'Razón Social:', ['class' => 'bold']) !!}
-        {!! Form::text('razon_social', null, ['class' => 'form-control round', 'required']) !!}
+        {!! Form::label('rif', 'RIF:', ['class' => 'bold']) !!}
+        {!! Form::text('rif', null, ['class' => 'form-control round', 'required']) !!}
     </div>
 
     <!-- Teléfono Field -->
@@ -19,6 +19,12 @@
 </div>
 
 <div class="row">
+    <!-- Razón Social Field -->
+    <div class="form-group col-sm-12 col-md-4">
+        {!! Form::label('razon_social', 'Razón Social:', ['class' => 'bold']) !!}
+        {!! Form::text('razon_social', null, ['class' => 'form-control round', 'required']) !!}
+    </div>
+
     <!-- Estado Field -->
     <div class="form-group col-sm-12 col-md-4">
         {!! Form::label('estado', 'Estado:', ['class' => 'bold']) !!}
@@ -30,7 +36,9 @@
         {!! Form::label('municipio', 'Municipio:', ['class' => 'bold']) !!}
         {!! Form::text('municipio', null, ['class' => 'form-control round', 'required']) !!}
     </div>
+</div>
 
+<div class="row">
     <!-- Parroquia Field -->
     <div class="form-group col-sm-12 col-md-4">
         {!! Form::label('parroquia', 'Parroquia:', ['class' => 'bold']) !!}
@@ -38,19 +46,10 @@
     </div>
 </div>
 
-<div class="row">
-    <!-- Rif Field -->
-    <div class="form-group col-sm-12 col-md-4">
-        {!! Form::label('rif', 'RIF:', ['class' => 'bold']) !!}
-        {!! Form::text('rif', null, ['class' => 'form-control round', 'required']) !!}
-    </div>
-</div>
-
 <!-- Botones de acción -->
 <div class="float-end">
     {!! Form::submit('Aceptar', ['class' => 'btn btn-primary round', 'id' => 'submit_btn']) !!}
 </div>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -92,4 +91,3 @@
         });
     });
 </script>
-

@@ -1,4 +1,10 @@
+ 
+
 <div class="row">
+<div class="form-group col-sm-12 col-md-4">
+        {!! Form::label('rif', 'RIF:', ['class' => 'bold']) !!}
+        {!! Form::text('rif', old('rif', $proveedor->rif ?? ''), ['class' => 'form-control round', 'required']) !!}
+    </div>
     <!-- Razón Social Field -->
     <div class="form-group col-sm-12 col-md-4">
         {!! Form::label('razon_social', 'Razón Social:', ['class' => 'bold']) !!}
@@ -16,10 +22,7 @@
         {!! Form::label('email', 'Email:', ['class' => 'bold']) !!}
         {!! Form::email('email', old('email', $proveedor->email ?? ''), ['class' => 'form-control round', 'required']) !!}
     </div>
-</div>
 
-<div class="row">
-    <!-- Estado Field -->
     <div class="form-group col-sm-12 col-md-4">
         {!! Form::label('estado', 'Estado:', ['class' => 'bold']) !!}
         {!! Form::text('estado', old('estado', $proveedor->estado ?? ''), ['class' => 'form-control round', 'required']) !!}
@@ -39,11 +42,8 @@
 </div>
 
 <div class="row">
-    <!-- Rif Field -->
-    <div class="form-group col-sm-12 col-md-4">
-        {!! Form::label('rif', 'RIF:', ['class' => 'bold']) !!}
-        {!! Form::text('rif', old('rif', $proveedor->rif ?? ''), ['class' => 'form-control round', 'required']) !!}
-    </div>
+    <!-- Estado Field -->
+   
 </div>
 
 <!-- Botones de acción -->
@@ -51,7 +51,6 @@
     {!! Form::submit('Guardar', ['class' => 'btn btn-primary round', 'id' => 'submit_btn']) !!}
     <a href="{{ route('proveedores.index') }}" class="btn btn-danger round">Cancelar</a>
 </div>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -93,4 +92,3 @@
         });
     });
 </script>
-

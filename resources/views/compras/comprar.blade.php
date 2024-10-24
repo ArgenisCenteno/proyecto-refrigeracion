@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-<main class="app-main">
+<main   id="main"  class="main">
     <div class="container-fluid">
         <div class="animated fadeIn">
             <div class="row">
@@ -14,8 +14,8 @@
                             </div>
 
                             <!-- Título y botón para redirigir -->
-                            <div class="col-md-6">
-                                <h3 class="p-2 bold">Generar Compra</h3>
+                            <div class="col-md-12 text-center mb-4">
+                                <h3 class="p-2 bold"> <strong>Generar Compra</strong> </h3>
                             </div>
 
                            
@@ -24,14 +24,15 @@
                         <!-- Contenedor de los formularios de compra y el datatable -->
                         <div class="row">
                         <div class="col-md-6">
+                            @include('compras.datatableProductos')
+                               
+                            </div>
+                        <div class="col-md-6">
                                 
                                 @include('compras.fields_compra')
                                 </div>
                             <!-- Columna para fields_compra -->
-                            <div class="col-md-6">
-                            @include('compras.datatableProductos')
-                               
-                            </div>
+                          
 
                             <!-- Columna para datatableProductos -->
                            

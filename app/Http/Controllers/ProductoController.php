@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductosExport;
 use App\Models\ImagenProducto;
 use App\Models\Producto;
 use App\Models\SubCategoria;
@@ -10,6 +11,8 @@ use Flash;
 use Alert;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+
 use Yajra\DataTables\Facades\DataTables;
 
 class ProductoController extends Controller
@@ -248,5 +251,25 @@ class ProductoController extends Controller
             'success' => true,
             'message' => 'Imagen eliminada exitosamente.'
         ], 200);
+    }
+
+    public function export()
+    {
+       
+        return Excel::download(new ProductosExport  , 'productos.xlsx');
+    }
+
+    public function buscar(Request $request)
+    {
+        // Validar que se haya enviado una consulta
+      //dd("test");
+
+        $busqueda = $request->input('query');
+        
+        // Busca productos cuyo nombre coincida con la búsqueda
+        $productos = Producto::where('nombre', 'LIKE', "%{$busqueda}%")->get();
+        
+        // Retorna a la vista de resultados con los productos encontrados
+        return view('resultados', compact('productos', 'busqueda'));
     }
 }

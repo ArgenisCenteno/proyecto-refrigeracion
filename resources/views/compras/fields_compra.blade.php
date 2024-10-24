@@ -4,23 +4,25 @@
     <!-- Encabezado -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         
-        <span class="text-muted">{{ auth()->user()->name }}</span>
+       {{--<span class="text-muted">{{ auth()->user()->name }}</span> --}}
     </div>
 
 
     <!-- Monto total -->
     <div class="text-center mb-5">
-        <h5 class="text-success">Monto Total a Pagar: <span id="totalVenta" class="totalVenta">$0.00</span></h5>
-        <input type="hidden" name="productos" id="productosInput">
-        <input type="hidden" name="metodos_pago" id="metodosPagoInput">
+    <div class="p-4 bg-success text-white rounded" style="border-radius: 10px;"> <!-- Added background, padding, text color, and border radius -->
+        <h5 class="text-light">Monto Total a Pagar: <span id="totalVenta" class="totalVenta">$0.00</span></h5>
     </div>
+    <input type="hidden" name="productos" id="productosInput">
+    <input type="hidden" name="metodos_pago" id="metodosPagoInput">
+</div>
 
     <hr class="mb-5" />
 
     <!-- Proveedor y Métodos de Pago -->
     <div class="row">
         <!-- Selección de Proveedor -->
-        <div class="col-md-6 mb-4">
+        <div class="col-md-12 mb-4">
             <h4>Proveedor</h4>
             <select name="user_id" id="user_id" class="form-select select2">
                 <option value="">Seleccione un Proveedor</option>
@@ -31,8 +33,8 @@
         </div>
 
         <!-- Métodos de Pago -->
-        <div class="col-md-6">
-            <h4>Métodos de Pago</h4>
+        <div class="col-md-12">
+            <h4>Forma de Pago</h4>
             <div class="row g-3">
                 <div class="col-md-12">
                     <select class="form-select" id="metodoPago" name="metodoPago">
@@ -58,7 +60,7 @@
 
     <!-- Botón de envío -->
     <div class="text-center">
-        <button type="submit" id="submitBtn" class="btn btn-primary btn-lg" >Generar Venta</button>
+        <button type="submit" id="submitBtn" class="btn btn-primary btn-lg" style="width: 100%" >Generar Venta</button>
     </div>
 </section>
 

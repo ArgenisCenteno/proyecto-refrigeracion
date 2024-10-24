@@ -6,7 +6,7 @@
     <div class="row justify-content-center align-items-center h-100">
       <div class="col-sm-6 text-black">
 
-        <div class="d-flex align-items-center justify-content-center h-custom-2 px-5 mt-5 pt-5  pb-5" style=" border-radius: 20px; margin-top: 120px !important; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+        <div class="d-flex align-items-center justify-content-center h-custom-2 px-5 mt-5 pt-5  pb-5" >
 
           <!-- Formulario de inicio de sesión -->
           <form method="POST" action="{{ route('login') }}" style="width: 23rem;">

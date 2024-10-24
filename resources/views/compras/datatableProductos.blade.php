@@ -1,10 +1,10 @@
 <div class="table-responsive">
     <table class="table table-striped table-bordered " id="productos-table2">
-        <thead class="thead-dark">
+        <thead  >
             <tr>
                 <th>Producto</th>
                 <th>Precio</th>
-                <th>Aplica IVA</th>
+                <th>IVA</th>
                 <th class="text-center">Acciones</th>
             </tr>
         </thead>
@@ -60,7 +60,7 @@
                     render: function (data, type, full, meta) {
                         return `
                         <button type="button" class="btn btn-sm btn-primary addToCartBtn" data-product-id="${data}">
-                            <i class="fas fa-cart-plus"></i> Añadir
+                            <i class="fas fa-cart-plus"></i> +
                         </button>`;
                     }
                 }
@@ -119,19 +119,23 @@
                             cantidad: 1 // Cantidad inicial
                         });
                         const productoHTML = `
-   <div class="producto-item card mb-3 shadow-sm productoCarrito" id="productoCarrito_${productId}">
-    <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-2">
+<div class="producto-item card mb-4 shadow border-light productoCarrito" id="productoCarrito_${productId}" style="border-radius: 15px;">
+    <div class="card-body" style="background-color: #f8f9fa;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-bold text-dark">${productName}</h5>
-            <h5 class="text-success">Bs ${precioProductoIva}</h5>
+             
+        </div>
+          <div class="mb-3">
+            <h6 class="text-muted"> <strong>Precio con IVA:</strong> </h6>
+            <span class="text-primary fw-bold" >Bs ${precioProductoIva}</span>
         </div>
         <div class="mb-3">
-            <h6 class="text-muted">Precio sin IVA:</h6>
-            <span class="text-primary" id="precioProducto_${productId}">Bs${productPrice}</span>
+            <h6 class="text-muted"> <strong>Precio sin IVA:</strong> </h6>
+            <span class="text-primary fw-bold" id="precioProducto_${productId}">Bs ${productPrice}</span>
         </div>
-        
+
         <div class="mb-2 d-flex align-items-center">
-            <h6 class="text-muted me-2">Aplica IVA:</h6>
+            <h6 class="text-muted me-2"> <strong>IVA:</strong> </h6>
             <span id="aplicaIVA_${productId}" class="badge ${productIva ? 'bg-success' : 'bg-danger'}">
                 ${productIva ? 'Sí' : 'No'}
             </span>
@@ -141,21 +145,21 @@
             <h6 class="text-muted">Descripción:</h6>
             <p class="small text-secondary">${productDescription}</p>
         </div>
-        
+
         <div class="d-flex justify-content-between align-items-center">
             <div class="input-group">
-                <span class="input-group-text">Cantidad:</span>
-                <input type="number" class="form-control cantidadProducto" value="1" min="1" id="cantidadProducto_${productId}">
+                <span class="input-group-text" style="background-color: #e9ecef; border: none; border-radius: 5px;">Cantidad:</span>
+                <input type="number" class="form-control cantidadProducto" value="1" min="1" id="cantidadProducto_${productId}" style="border-radius: 5px;">
                 <input type="hidden" class="stock" id="stock_${productId}" value="${productoStock}"/>
             </div>
             <button type="button" class="btn btn-danger btn-sm ms-3 removeProducto" id="removeProducto_${productId}">
-                <i class="fas fa-trash"></i> Eliminar
+                <i class="fas fa-trash"></i> Quitar
             </button>
         </div>
     </div>
 </div>
-
 `;
+
 
                         // Agregar el productoHTML al contenedor #productoCarrito
                         $('#productoCarrito').append(productoHTML);

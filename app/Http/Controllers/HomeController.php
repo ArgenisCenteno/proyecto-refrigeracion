@@ -31,6 +31,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        
         $ventas = Venta::count();
         $compras = Compra::count();
         $usuarios = User::count();

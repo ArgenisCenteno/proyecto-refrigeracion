@@ -209,7 +209,7 @@ class CompraController extends Controller
 
         //registrar Compra
         $Compra = new Compra();
-        $Compra->user_id = $request->user_id;
+        $Compra->user_id = $userId;
         $Compra->proveedor_id = $userId;
         $Compra->monto_total = $montoTotal;
         $Compra->status = 'Pagado';
@@ -243,15 +243,15 @@ class CompraController extends Controller
         $recibo->monto = $montoTotal;
         $recibo->estatus = 'Pagado';
         $recibo->pago_id = $pago->id;
-        $recibo->user_id = $request->user_id;
+        $recibo->user_id = $userId;
         $recibo->activo = 1;
-        $recibo->creado_id = $userId;
+       // $recibo->creado_id = $userId;
         $recibo->descuento = $request->descuento;
         $recibo->save();
 
 
         Alert::success('¡Exito!', 'Compra generada exitosamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
-        return redirect()->back();
+        return redirect(route('compras.index'));
     }
 
     public function destroy($id)
