@@ -15,9 +15,11 @@ class Pago extends Model
         'banco_origen',
         'banco_destino',
         'numero_referencia',
+        'viaje_id',
         'fecha_pago',
         'monto_total',
         'monto_neto',
+        'referencia',
         'descuento',
         'tasa_dolar',
         'forma_pago',
@@ -27,15 +29,6 @@ class Pago extends Model
         'impuestos'
     ];
 
-    public function ventas()
-    {
-        return $this->hasMany(Venta::class, 'pago_id');
-    }
-
-    public function compras()
-    {
-        return $this->hasMany(Compra::class, 'pago_id');
-    }
 
     public function recibos()
     {
@@ -45,5 +38,10 @@ class Pago extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'creado_id');
+    }
+
+    public function viaje()
+    {
+        return $this->belongsTo(Viaje::class, 'viaje_id');
     }
 }

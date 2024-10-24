@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RegistroConductor;
+use App\Models\Sector;
+use App\Models\Servicio;
+use App\Models\Tramite;
 use App\Models\User;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
@@ -33,7 +38,7 @@ class UserController extends Controller
                 ->addColumn('actions', function ($row) {
                     $viewUrl = route('usuarios.edit', $row->id);
                     $deleteUrl = route('usuarios.destroy', $row->id);
-                    $pdfUrl = route('usuarios.pdf', $row->id);
+
                     return '<a href="' . $viewUrl . '" class="btn btn-success btn-sm">Editar</a>
                             
                             <form action="' . $deleteUrl . '" method="POST" style="display:inline;" class="btn-delete">
@@ -72,9 +77,10 @@ class UserController extends Controller
     {
         // Obtener todos los roles disponibles
         $roles = Role::all();
-
+        $sectores = Sector::all();
+        $servicios = Servicio::all();
         // Retornar la vista con los roles
-        return view('usuarios.create', compact('roles'));
+        return view('usuarios.create', compact('roles', 'servicios'))->with('sectores', $sectores);
     }
 
 
@@ -92,28 +98,101 @@ class UserController extends Controller
             'sector' => 'nullable|string|max:100',
             'calle' => 'nullable|string|max:100',
             'casa' => 'nullable|string|max:100',
+            'foto_perfil' => 'nullable|image|mimes:png,jpg,jpeg|max:2048', // Validar la foto de perfil
             'role' => 'required|string|exists:roles,name',
-            'status' => 'required|string|in:Activo,Inactivo',
+
+            'genero' => 'required|string|in:Masculino,Femenino,Otro',
+            'referencia' => 'nullable|string|max:255',
         ]);
+
+        // Manejar la subida de la foto de perfil
+
+
+        if ($request->hasFile('foto_perfil')) {
+            $documentItv = $request->file('foto_perfil');
+            $documentItvFile = time() . $documentItv->getClientOriginalName();
+            $documentItv->move(public_path('/files/users'), $documentItvFile);
+            $documentItvPath = $documentItvFile;
+        }
 
         // Crear el usuario
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' =>  Hash::make($request->password), // Encriptar la contraseña
+            'password' => Hash::make($request->password), // Encriptar la contraseña
             'dni' => $request->dni,
             'sector' => $request->sector,
             'calle' => $request->calle,
             'casa' => $request->casa,
-            'status' => $request->status,
+            'status' => 'Activo',
+            'foto_perfil' => $documentItvPath, // Guardar la ruta de la foto de perfil
+            'genero' => $request->genero,
+            'referencia' => $request->referencia,
+            
         ]);
 
         // Asignar el rol al usuario
         $user->assignRole($request->role);
 
-        // Redirigir a la lista de usuarios
 
-        Alert::success('¡Exito!', 'Registro hecho correctamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
+
+        if ($request->role === 'conductor') {
+
+            $tramite = new Tramite();
+            $tramite->tipo = 'Registro de Conductor';
+            $tramite->descripcion = 'Registro de Conductor para servicio de rider';
+            $tramite->user_id = $user->id;
+            $tramite->estado = 'Pendiente';
+            $tramite->save();
+
+            if ($request->hasFile('documento_conducir')) {
+                $documentItv = $request->file('documento_conducir');
+                $documentItvFile = time() . $documentItv->getClientOriginalName();
+                $documentItv->move(public_path('/files/users'), $documentItvFile);
+                $documento_conducir = $documentItvFile;
+            }
+
+            if ($request->hasFile('documento_contrato')) {
+                $documentItv = $request->file('documento_contrato');
+                $documentItvFile = time() . $documentItv->getClientOriginalName();
+                $documentItv->move(public_path('/files/users'), $documentItvFile);
+                $documento_contrato = $documentItvFile;
+            }
+
+            if ($request->hasFile('documento_propiedad')) {
+                $documentItv = $request->file('documento_propiedad');
+                $documentItvFile = time() . $documentItv->getClientOriginalName();
+                $documentItv->move(public_path('/files/users'), $documentItvFile);
+                $documento_propiedad = $documentItvFile;
+            }
+
+            $registro = new RegistroConductor();
+            $registro->user_id = $user->id;
+            $registro->estado = 'Pendiente';
+            $registro->documento_propiedad = $documento_propiedad;
+            $registro->documento_contrato = $documento_contrato;
+            $registro->documento_conducir = $documento_conducir;
+            $registro->save();
+
+            //Registra vehículo
+            // Create a new vehicle
+            $vehiculo = new Vehicle();
+            $vehiculo->user_id = $user->id; // Set the user_id to the authenticated user
+            $vehiculo->tipo = $request->tipo;
+            $vehiculo->marca = $request->marca;
+            $vehiculo->modelo = $request->modelo;
+            $vehiculo->color = $request->color;
+            $vehiculo->placa = $request->placa;
+            $vehiculo->anio = $request->anio;
+            $vehiculo->servicio_id = $request->servicio_id;
+            $vehiculo->save();
+
+            $user->status = 'Inactivo';
+            $user->save();
+        }
+
+        // Redirigir a la lista de usuarios
+        Alert::success('¡Éxito!', 'Registro hecho correctamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
 
         return redirect()->route('usuarios.index');
     }
@@ -132,13 +211,15 @@ class UserController extends Controller
     public function edit($id)
     {
         // Encontrar el usuario por ID
-        $user = User::findOrFail($id);
+        $usuario = User::findOrFail($id);
 
         // Obtener todos los roles disponibles
         $roles = Role::all();
+        $sectores = Sector::all();
+
 
         // Retornar la vista con los datos del usuario y los roles
-        return view('usuarios.edit', compact('user', 'roles'));
+        return view('usuarios.edit', compact('usuario', 'roles', 'sectores'));
     }
 
 
@@ -178,6 +259,14 @@ class UserController extends Controller
         $user->casa = $request->casa;
         $user->status = $request->status;
 
+        // Manejar la foto de perfil
+        if ($request->hasFile('foto_perfil')) {
+            $documentItv = $request->file('foto_perfil');
+            $documentItvFile = time() . $documentItv->getClientOriginalName();
+            $documentItv->move(public_path('/files/users'), $documentItvFile);
+            $user->foto_perfil = $documentItvFile; // Actualizar el path de la foto de perfil
+        }
+
         // Guardar los cambios
         $user->save();
 
@@ -189,6 +278,7 @@ class UserController extends Controller
 
         return redirect()->route('usuarios.index');
     }
+
 
 
     /**

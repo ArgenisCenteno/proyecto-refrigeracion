@@ -3,16 +3,17 @@
 use App\Exports\ComprasExport;
 use App\Exports\VentasExport;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\CajaController;
-use App\Http\Controllers\CarritoController;
-use App\Http\Controllers\CompraController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\NotificacionController;
-use App\Http\Controllers\PagoController;
-use App\Http\Controllers\PdfController;
-use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\VentaController;
-use App\Models\Producto;
+
+use App\Http\Controllers\ConductorController;
+use App\Http\Controllers\CuentaPorCobrarController;
+use App\Http\Controllers\PasajeroController;
+use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\SectorController;
+use App\Http\Controllers\TramiteController;
+use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\ViajeController;
+use App\Models\CuentaPorCobrar;
+use App\Models\Tramite;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -28,6 +29,7 @@ use Maatwebsite\Excel\Facades\Excel;
 */
 
 Route::get('/', function () {
+<<<<<<< HEAD
     $productos = Producto::with('imagenes')->limit(6)->get(); // Obtener 6 productos de la base de datos
     return view('welcome', compact('productos'));
 });
@@ -90,27 +92,61 @@ Route::get('/producto/{id}', [VentaController::class, 'obtenerProducto'])->name(
 
 /* TASAS, MONEDAS E IMPUESTOS */
 Route::resource('tasas', App\Http\Controllers\TasasController::class);
+=======
+    // Obtener 6 productos de la base de datos
+    return view('welcome');
+});
+>>>>>>> af132ad71bd899e0ab6489eaccc4870aaa210ad7
 
-/* COMPRAS */
-Route::resource('compras', App\Http\Controllers\CompraController::class);
-Route::get('/comprar', [CompraController::class, 'comprar'])->name('compras.comprar');
-Route::get('/datatableProductoCompra', [CompraController::class, 'datatableProductoCompras'])->name('compras.datatableProductoCompra');
-Route::post('/generarCompra', [CompraController::class, 'generarCompra'])->name('compras.generarCompra');
-Route::get('/pdfCompra/{id}', [PdfController::class, 'pdfCompra'])->name('compras.pdf');
+    Route::resource('sectores', App\Http\Controllers\SectorController::class);
+    Route::resource('usuarios', App\Http\Controllers\UserController::class);
+    Route::resource('servicios', App\Http\Controllers\ServicioController::class);
+    Route::resource('vehiculos', VehicleController::class);
+    Route::resource('conductores', ConductorController::class);
+    Route::resource('pasajeros', PasajeroController::class);
+    Route::resource('tramites', TramiteController::class);
+    Route::resource('reportes', ReporteController::class);
 
-/* PROVEEDORES */
-Route::resource('proveedores', App\Http\Controllers\ProveedorController::class);
+    Route::post('/viajes/exportar', [ReporteController::class, 'exportarExcel'])->name('reportes.exportarExcel');
+    Route::post('/exportar-cuentas-por-cobrar', [ReporteController::class, 'exportarCuentasPorCobrarExcel'])->name('cuentasPorCobrar.exportarExcel');
+    Route::post('/exportar-pagos', [ReporteController::class, 'exportarPagosExcel'])->name('pagos.exportarExcel');
 
-/* PAGOS */
-Route::resource('pagos', App\Http\Controllers\PagoController::class);
-Route::get('/pdfPago/{id}', [PdfController::class, 'pdfPago'])->name('pagos.pdf');
+    Route::get('/home-page', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+    Route::put('/viajes/{id}/cancelar', [ViajeController::class, 'cancelar'])->name('viajes.cancelar');
+
+    Route::resource('sectores', App\Http\Controllers\SectorController::class);
+    Route::resource('usuarios', App\Http\Controllers\UserController::class);
+    Route::resource('servicios', App\Http\Controllers\ServicioController::class);
+    Route::resource('vehiculos', VehicleController::class);
+    Route::resource('conductores', ConductorController::class);
+    Route::resource('pasajeros', PasajeroController::class);
+    Route::resource('tramites', TramiteController::class);
+    Route::resource('reportes', ReporteController::class);
+    Route::resource('viajes', ViajeController::class); // Asegúrate de que el controlador de viajes esté accesible
+
+    Route::post('/viajes/exportar', [ReporteController::class, 'exportarExcel'])->name('reportes.exportarExcel');
+    Route::post('/exportar-cuentas-por-cobrar', [ReporteController::class, 'exportarCuentasPorCobrarExcel'])->name('cuentasPorCobrar.exportarExcel');
+    Route::post('/exportar-pagos', [ReporteController::class, 'exportarPagosExcel'])->name('pagos.exportarExcel');
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::put('/viajes/{id}/cancelar', [ViajeController::class, 'cancelar'])->name('viajes.cancelar');
+
+    Route::resource('cuentasPorCobrar', CuentaPorCobrarController::class); // Asegúrate de que el controlador de cuentas por cobrar esté accesible
+    Route::get('/home-user', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/pagar/{id}', [App\Http\Controllers\CuentaPorCobrarController::class, 'iniciarPago'])->name('pagar');
+
+
+<<<<<<< HEAD
 /* PAGOS */
 Route::resource('usuarios', App\Http\Controllers\UserController::class);
 Route::get('/pdfUser/{id}', [PdfController::class, 'pdfEstadoCuenta'])->name('usuarios.pdf');
 });
 
 
+=======
+>>>>>>> af132ad71bd899e0ab6489eaccc4870aaa210ad7
 // Ruta de inicio de sesión
 Route::post('/buscar', [ProductoController::class, 'buscar'])->name('buscar');
 

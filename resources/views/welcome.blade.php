@@ -1,271 +1,62 @@
 @extends('layouts.app')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
-<style>
-  .hero {
-    width: 100%;
-    min-height: 80vh;
-    position: relative;
-    padding: 120px 0 60px 0;
-    display: flex;
-    align-items: center;
-  }
-
-  .hero h1 {
-    margin: 0;
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 56px;
-  }
-
-  .hero p {
-    color: color-mix(in srgb, var(--default-color), transparent 30%);
-    margin: 5px 0 30px 0;
-    font-size: 22px;
-    line-height: 1.3;
-    font-weight: 600;
-  }
-
-  .hero .btn-get-started {
-    color: var(--contrast-color);
-    background: var(--accent-color);
-    font-family: var(--heading-font);
-    font-weight: 500;
-    font-size: 15px;
-    letter-spacing: 1px;
-    display: inline-block;
-    padding: 10px 28px 12px 28px;
-    border-radius: 50px;
-    transition: 0.5s;
-  }
 
 
-
-
-
-
-  .hero .animated {
-    animation: up-down 2s ease-in-out infinite alternate-reverse both;
-  }
-
-  @media (max-width: 640px) {
-    .hero h1 {
-      font-size: 28px;
-      line-height: 36px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      line-height: 24px;
-      margin-bottom: 30px;
-    }
-
-
-  }
-
-  @keyframes up-down {
-    0% {
-      transform: translateY(10px);
-    }
-
-    100% {
-      transform: translateY(-10px);
-    }
-  }
-
-
-  /*--------------------------------------------------------------
-# Services Section
---------------------------------------------------------------*/
-  .services .service-item {
-    background-color: var(--surface-color);
-    box-shadow: 0px 5px 90px 0px rgba(0, 0, 0, 0.1);
-    padding: 50px 30px;
-    transition: all ease-in-out 0.4s;
-    height: 100%;
-  }
-
-  .services .service-item .icon {
-    margin-bottom: 10px;
-  }
-
-  .services .service-item .icon i {
-    color: var(--accent-color);
-    font-size: 36px;
-    transition: 0.3s;
-  }
-
-  .services .service-item h4 {
-    font-weight: 700;
-    margin-bottom: 15px;
-    font-size: 20px;
-  }
-
-  .services .service-item h4 a {
-    color: var(--heading-color);
-    transition: ease-in-out 0.3s;
-  }
-
-  .services .service-item p {
-    line-height: 24px;
-    font-size: 14px;
-    margin-bottom: 0;
-  }
-
-  .services .service-item:hover {
-    transform: translateY(-10px);
-  }
-
-  .services .service-item:hover h4 a {
-    color: var(--accent-color);
-  }
-
-  /*--------------------------------------------------------------
-# producto Section
---------------------------------------------------------------*/
-  .producto .producto-filters {
-    padding: 0;
-    margin: 0 auto 20px auto;
-    list-style: none;
-    text-align: center;
-  }
-
-  .producto .producto-filters li {
-    cursor: pointer;
-    display: inline-block;
-    padding: 8px 20px 10px 20px;
-    margin: 0;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1;
-    margin-bottom: 5px;
-    border-radius: 50px;
-    transition: all 0.3s ease-in-out;
-    font-family: var(--heading-font);
-  }
-
-  .producto .producto-filters li:hover,
-  .producto .producto-filters li.filter-active {
-    color: var(--contrast-color);
-    background-color: var(--accent-color);
-  }
-
-  .producto .producto-filters li:first-child {
-    margin-left: 0;
-  }
-
-  .producto .producto-filters li:last-child {
-    margin-right: 0;
-  }
-
-  @media (max-width: 575px) {
-    .producto .producto-filters li {
-      font-size: 14px;
-      margin: 0 0 10px 0;
-    }
-  }
-
-  .producto .producto-item {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .producto .producto-item .producto-info {
-    opacity: 0;
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    bottom: -100%;
-    z-index: 3;
-    transition: all ease-in-out 0.5s;
-    background: color-mix(in srgb, var(--background-color), transparent 10%);
-    padding: 15px;
-  }
-
-  .producto .producto-item .producto-info h4 {
-    font-size: 18px;
-    font-weight: 600;
-    padding-right: 50px;
-    color: teal;
-  }
-
-  .producto .producto-item .producto-info p {
-    color: color-mix(in srgb, var(--default-color), transparent 30%);
-    font-size: 14px;
-    margin-bottom: 0;
-    padding-right: 50px;
-    color: teal;
-  }
-
-  .producto .producto-item .producto-info .preview-link,
-  .producto .producto-item .producto-info .details-link {
-    position: absolute;
-    right: 50px;
-    font-size: 24px;
-    top: calc(50% - 14px);
-    color: color-mix(in srgb, var(--default-color), transparent 30%);
-    transition: 0.3s;
-    line-height: 0;
-  }
-
-  .producto .producto-item .producto-info .preview-link:hover,
-  .producto .producto-item .producto-info .details-link:hover {
-    color: var(--accent-color);
-  }
-
-  .producto .producto-item .producto-info .details-link {
-    right: 14px;
-    font-size: 28px;
-  }
-
-  .producto .producto-item:hover .producto-info {
-    opacity: 1;
-    bottom: 0;
-  }
-
-  #hero {
-    position: relative;
-    overflow: hidden; /* Evita que la imagen se desborde */
-  }
-  .hero-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1; /* Coloca la imagen detrás del contenido */
-  }
-  .hero-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ajusta la imagen al contenedor */
-    opacity: 0.4; /* Aplica la opacidad */
-  }
-  .row {
-    position: relative; /* Asegura que el contenido esté por encima de la imagen */
-    z-index: 2; /* Coloca el contenido encima de la imagen */
-  }
-</style>
-@section('content')
-
+<!-- Hero Section -->
 <section id="hero" class="hero section dark-background">
+
   <div class="container">
-    <div class="hero-bg">
-      <img src="{{asset('imagenes/banner.jpg')}}" alt="banner">
-    </div>
     <div class="row gy-4">
       <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
-        <h1>¡Siempre a la orden!</h1>
-        <p>Más de 20 años atendiendo al público y ofreciendo productos de calidad, a precios asequibles</p>
+        <h1>Soluciones Rápidas y Eficientes para tu Movilidad</h1>
+        <p>Somos un equipo de riders comprometidos en ofrecerte el mejor servicio de mototaxi</p>
         <div class="d-flex">
-         
+          <a href="{{route('login')}}" class="btn-get-started">Comienza Ahora</a>
         </div>
       </div>
-      <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="200">
-        <img src="{{asset('imagenes/hero-img.png')}}" class="img-fluid animated" alt="">
-      </div>
+     
     </div>
   </div>
-</section><!-- /Hero Section -->
+
+</section><!-- /Sección Hero -->
+
+
+
+<!-- About Section -->
+<section id="about" class="about section">
+
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Sobre Nosotros</h2>
+  </div><!-- End Section Title -->
+
+  <div class="container">
+
+    <div class="row gy-4">
+
+      <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+        <p>
+          Somos una empresa comprometida con ofrecer soluciones de movilidad rápidas, seguras y confiables a través de nuestro equipo de riders profesionales. Con años de experiencia en el sector, nos esforzamos por brindar un servicio eficiente que se adapte a las necesidades de nuestros clientes.
+        </p>
+        <ul>
+          <li><i class="bi bi-check2-circle"></i> <span>Riders capacitados y profesionales.</span></li>
+          <li><i class="bi bi-check2-circle"></i> <span>Servicios rápidos y seguros en toda la ciudad.</span></li>
+          <li><i class="bi bi-check2-circle"></i> <span>Facilidad para solicitar viajes a través de nuestra plataforma.</span></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+        <p>Ofrecemos una alternativa de transporte ágil, ideal para quienes buscan moverse por la ciudad de manera eficiente. Nos diferenciamos por la calidad de nuestro servicio, el compromiso con la seguridad de nuestros pasajeros y la rapidez con la que realizamos cada viaje.</p>
+       
+      </div>
+
+    </div>
+
+  </div>
+
+</section><!-- /About Section -->
+
+
 
 <!-- Services Section -->
 <section id="services" class="services section light-background">
@@ -273,94 +64,146 @@
   <!-- Section Title -->
   <div class="container section-title" data-aos="fade-up">
     <h2>Servicios</h2>
-    <p>REFRI RESPUESTOS FRIONAX VIP 2019 C.A, somos una empresa de venta de productos de refrigeración. Contamos con más
-      de 20 años de experencia el rubro, ofreciendo productos de calidad y el mejor servicio posible a nuestros
-      consumidores.</p>
+    <p>Ofrecemos una amplia gama de servicios diseñados para mejorar tu movilidad y facilitar tu día a día.</p>
   </div><!-- End Section Title -->
 
   <div class="container">
 
     <div class="row gy-4">
 
-      <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-        <div class="service-item position-relative">
-          <div class="icon"><i class="bi bi-gear icon"></i></div>
-          <h4><a href="" class="stretched-link">Instalación de Sistemas</a></h4>
-          <p>Instalación profesional de sistemas de refrigeración industrial y comercial adaptados a tus necesidades.
-          </p>
-        </div>
-      </div><!-- End Service Item -->
+    
 
       <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
         <div class="service-item position-relative">
-          <div class="icon"><i class="bi bi-wrench icon"></i></div>
-          <h4><a href="" class="stretched-link">Mantenimiento Preventivo</a></h4>
-          <p>Servicio de mantenimiento preventivo para asegurar el funcionamiento óptimo de tus equipos de
-            refrigeración.</p>
+          <div class="icon"><i class="bi bi-box-seam icon"></i></div>
+          <h4><a href="" class="stretched-link">Entrega de Paquetes</a></h4>
+          <p>Entrega segura y rápida de paquetes y documentos en cualquier punto de la ciudad.</p>
         </div>
       </div><!-- End Service Item -->
 
       <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
         <div class="service-item position-relative">
-          <div class="icon"><i class="bi bi-speedometer2 icon"></i></div>
-          <h4><a href="" class="stretched-link">Diagnóstico y Reparación</a></h4>
-          <p>Detectamos y solucionamos fallas en sistemas de refrigeración, garantizando una rápida respuesta técnica.
-          </p>
+          <div class="icon"><i class="bi bi-person-check icon"></i></div>
+          <h4><a href="" class="stretched-link">Rider Personalizado</a></h4>
+          <p>Reserva un rider exclusivo para tus necesidades diarias de transporte.</p>
         </div>
       </div><!-- End Service Item -->
 
       <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
         <div class="service-item position-relative">
-          <div class="icon"><i class="bi bi-thermometer-sun icon"></i></div>
-          <h4><a href="" class="stretched-link">Optimización Energética</a></h4>
-          <p>Implementación de soluciones que mejoran la eficiencia energética de tus sistemas, ahorrando costos y
-            energía.</p>
+          <div class="icon"><i class="bi bi-shield-check icon"></i></div>
+          <h4><a href="" class="stretched-link">Transporte Seguro</a></h4>
+          <p>Todos nuestros riders cumplen con estrictas medidas de seguridad para garantizar tu bienestar.</p>
+        </div>
+      </div><!-- End Service Item -->
+
+      <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="500">
+        <div class="service-item position-relative">
+          <div class="icon"><i class="bi bi-geo-alt icon"></i></div>
+          <h4><a href="" class="stretched-link">Cobertura Amplia</a></h4>
+          <p>Contamos con una amplia red de riders para garantizar servicio en toda la ciudad.</p>
         </div>
       </div><!-- End Service Item -->
 
     </div>
 
-
   </div>
 
 </section><!-- /Services Section -->
 
-<!-- producto Section -->
-<section id="productos" class="producto section m-4">
+
+<!-- Call To Action Section -->
+<section id="call-to-action" class="call-to-action section dark-background">
+
+  <img src="assets/img/cta-bg.jpg" alt="">
+
+  <div class="container">
+
+    <div class="row" data-aos="zoom-in" data-aos-delay="100">
+      <div class="col-xl-9 text-center text-xl-start">
+        <h3>¿Necesitas un transporte rápido y seguro?</h3>
+        <p>Con nuestro servicio de mototaxi, llegas a tu destino de forma rápida, segura y sin complicaciones. Olvídate del tráfico y los retrasos. Estamos aquí para ofrecerte un transporte eficiente cuando más lo necesitas.</p>
+      </div>
+      <div class="col-xl-3 cta-btn-container text-center">
+        <a class="cta-btn align-middle" href="#">¡Reserva ahora!</a>
+      </div>
+    </div>
+
+  </div>
+
+</section><!-- /Call To Action Section -->
+
+
+
+<!-- Pricing Section -->
+<section id="pricing" class="pricing section light-background">
 
   <!-- Section Title -->
-  <div class="container section-title mt-4" data-aos="fade-up">
-    <h2>Productos</h2>
-    <p>¡Aprovecha nuestras ofertas!</p>
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Precios</h2>
+    <p>Elige el plan que mejor se adapte a tus necesidades y disfruta de un transporte rápido y seguro</p>
   </div><!-- End Section Title -->
 
   <div class="container">
 
-    <div class="isotope-layout" data-layout="masonry" data-sort="original-order">
+    <div class="row gy-4">
 
-
-
-      <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-        @foreach ($productos as $producto) <!-- Itera sobre los productos -->
-      <div class="col-lg-4 col-md-6 producto-item isotope-item filter-app">
-        <img src="{{ $producto->imagenes->first()->url }}" class="img-fluid" alt="">
-        <div class="producto-info">
-        <h4>{{ $producto->nombre }}</h4>
-        <p>{{ $producto->descripcion }}</p>
-        <a href="{{ route('detalles', $producto->slug) }}" title="More Details" class="details-link"><i
-          class="bi bi-link-45deg"></i></a>
+      <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+        <div class="pricing-item">
+          <h3>Plan Básico</h3>
+          <h4><sup>$</sup>1<span> / viaje</span></h4>
+          <ul>
+            <li><i class="bi bi-check"></i> <span>Viaje corto en la ciudad</span></li>
+            <li><i class="bi bi-check"></i> <span>Disponible de lunes a viernes</span></li>
+            <li><i class="bi bi-check"></i> <span>Soporte básico</span></li>
+            <li class="na"><i class="bi bi-x"></i> <span>Servicio 24/7</span></li>
+            <li class="na"><i class="bi bi-x"></i> <span>Seguros adicionales</span></li>
+          </ul>
+          <a href="#" class="buy-btn">Contratar</a>
         </div>
-      </div><!-- End producto Item -->
-    @endforeach
+      </div><!-- End Pricing Item -->
 
+      <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+        <div class="pricing-item featured">
+          <h3>Plan Intermedio</h3>
+          <h4><sup>$</sup>2<span> / viaje</span></h4>
+          <ul>
+            <li><i class="bi bi-check"></i> <span>Viaje de media distancia</span></li>
+            <li><i class="bi bi-check"></i> <span>Disponible de lunes a sábado</span></li>
+            <li><i class="bi bi-check"></i> <span>Soporte preferente</span></li>
+            <li><i class="bi bi-check"></i> <span>Servicio 24/7</span></li>
+            <li class="na"><i class="bi bi-x"></i> <span>Seguros adicionales</span></li>
+          </ul>
+          <a href="#" class="buy-btn">Contratar</a>
+        </div>
+      </div><!-- End Pricing Item -->
 
-      </div><!-- End producto Container -->
+      <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="300">
+        <div class="pricing-item">
+          <h3>Plan Premium</h3>
+          <h4><sup>$</sup>4<span> / viaje</span></h4>
+          <ul>
+            <li><i class="bi bi-check"></i> <span>Viaje largo en la ciudad</span></li>
+            <li><i class="bi bi-check"></i> <span>Disponible todos los días</span></li>
+            <li><i class="bi bi-check"></i> <span>Soporte premium 24/7</span></li>
+            <li><i class="bi bi-check"></i> <span>Seguros adicionales incluidos</span></li>
+            <li><i class="bi bi-check"></i> <span>Descuentos en viajes frecuentes</span></li>
+          </ul>
+          <a href="#" class="buy-btn">Contratar</a>
+        </div>
+      </div><!-- End Pricing Item -->
 
     </div>
 
   </div>
 
-</section><!-- /producto Section -->
+</section><!-- /Pricing Section -->
+
+
+
+@section('content')
+
+
 
 
 
