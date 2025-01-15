@@ -4,10 +4,11 @@
         <a href="{{ route('productos.edit', [$id]) }}" class='btn btn-info' data-bs-toggle="tooltip"
             data-bs-placement="top" title="Editar"><span >Editar</span></a>
         
-        
+        @if(Auth::user()->hasRole('superAdmin'))
         {!! Form::button('<span >Eliminar</span>', ['type' => 'submit', 'class' =>
         'btn btn-danger', 'data-bs-toggle' => 'tooltip', 'data-bs-placement' => 'top', 'title' => 'Eliminar']) !!}
-    </div>
+   @endif
+</div>
     {!! Form::close() !!}
 </td>
 <!-- SweetAlert CDN -->

@@ -1,51 +1,57 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="vh-100 p-0  bg-light" >
-  <div class="container-fluid">
-    <div class="row justify-content-center align-items-center h-100">
-      <div class="col-sm-6 text-black">
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100">
+      <div class="col-md-8 col-lg-7 col-xl-6">
+        <img src="{{asset('iconos/draw2.svg')}}"
+          class="img-fluid" alt="Phone image">
+      </div>
+      <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+        <h2 class="text-center m-2 p-3">Iniciar sesión</h2>
+        <form method="POST" action="{{ route('login') }}">
+          @csrf
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+          <label class="form-label" for="form1Example13">Email</label>
 
-        <div class="d-flex align-items-center justify-content-center h-custom-2 px-5 mt-5 pt-5  pb-5" >
+            <input type="email" id="form1Example13" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus />
+            @error('email')
+              <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+            @enderror
+          </div>
 
-          <!-- Formulario de inicio de sesión -->
-          <form method="POST" action="{{ route('login') }}" style="width: 23rem;">
-            @csrf <!-- Agregar token CSRF obligatorio -->
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+          <label class="form-label" for="form1Example23">Contraseña</label>
 
-            <h3 class="fw-normal mb-3 pb-3 text-center" style="letter-spacing: 1px;"><strong>FRIONAX</strong></h3>
+            <input type="password" id="form1Example23" placeholder="Ingrese email" class="form-control form-control-lg @error('password') is-invalid @enderror" name="password" required />
+            @error('password')
+              <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+            @enderror
+          </div>
 
-            <!-- Campo de correo electrónico -->
-            <div class="form-outline mb-4">
-              <label class="form-label" for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="Ingrese email" class="form-control form-control-lg" value="{{ old('email') }}" required autofocus />
-              @error('email')
-                <p class="text-danger">{{ $message }}</p> <!-- Mostrar error de validación -->
-              @enderror
+          <div class="d-flex justify-content-around align-items-center mb-4">
+            <!-- Checkbox -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" placeholder="Contraseña" name="remember" id="form1Example3" {{ old('remember') ? 'checked' : '' }} />
+              <label class="form-check-label" for="form1Example3">Recordar </label>
             </div>
+            <a href="{{route('register')}}">¿No tienes cuenta?</a>
+          </div>
 
-            <!-- Campo de contraseña -->
-            <div class="form-outline mb-4">
-              <label class="form-label" for="password">Contraseña</label>
-              <input type="password" id="password" name="password" placeholder="Ingrese Contraseña" class="form-control form-control-lg" required />
-              @error('password')
-                <p class="text-danger">{{ $message }}</p> <!-- Mostrar error de validación -->
-              @enderror
-            </div>
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Ingresar</button>
 
-            <!-- Botón de inicio de sesión -->
-            <div class="pt-1 mb-4">
-              <button class="btn btn-dark btn-lg btn-block" >Acceder</button>
-            </div>
+          
 
-            <!-- Enlace para recuperar la contraseña -->
-           
-
-            <!-- Enlace para registrarse -->
-            <p>¿No tienes cuenta? <a href="{{ route('register') }}" class="link-info">Registrarse</a></p>
-          </form>
-
-        </div>
-
+          
+        </form>
       </div>
     </div>
   </div>

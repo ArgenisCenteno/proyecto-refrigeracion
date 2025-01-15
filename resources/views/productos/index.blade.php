@@ -15,7 +15,9 @@
                         </div>
                         <div class="d-flex justify-content-end mt-3">
                                 <a href="{{route('productos.create')}}" class="btn btn-primary  round mx-1" >Registrar </a>
-                        </div>
+                                <a href="{{route('productoss.export')}}" class="btn btn-success">Inventario</a>
+                            </div>
+
                     </div>
                     <div >
                   

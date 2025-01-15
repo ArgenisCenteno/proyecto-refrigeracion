@@ -1,12 +1,14 @@
 <td>
+    
     {!! Form::open(['route' => ['categorias.destroy', $id], 'method' => 'delete', 'class' => 'btn-delete']) !!}
     <div class='btn-group'>
         <a href="{{ route('categorias.edit', [$id]) }}" class='btn btn-info' data-bs-toggle="tooltip"
             data-bs-placement="top" title="Editar"><span >Editar</span></a>
-        
+            @if(Auth::user()->hasRole('superAdmin'))
         {!! Form::button('<span>Eliminar</span>', ['type' => 'submit', 'class' =>
         'btn btn-danger', 'data-bs-toggle' => 'tooltip', 'data-bs-placement' => 'top', 'title' => 'Eliminar']) !!}
-    </div>
+   @endif
+</div>
     {!! Form::close() !!}
 </td>
 

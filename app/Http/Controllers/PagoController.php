@@ -25,7 +25,15 @@ class PagoController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Pago::with(['user', 'compras', 'ventas'])->get();
+            if(Auth::user()->hasRole('superAdmin|empleado')){
+                $data = Pago::with(['user', 'compras', 'ventas'])->get();
+
+            }else{
+            $data = Pago::with(['user', 'compras', 'ventas'])->where('creado_id', Auth::user()->id)->get();
+
+            }
+
+
 
 
             return DataTables::of($data)
@@ -54,14 +62,21 @@ class PagoController extends Controller
                     $viewUrl = route('pagos.edit', $row->id);
                     $deleteUrl = route('pagos.destroy', $row->id);
                     $pdfUrl = route('pagos.pdf', $row->id); // Asegúrate de que la ruta esté correcta
-                    return '<a href="' . $viewUrl . '" class="btn btn-info btn-sm">Detalles</a>
-                            <a href="' . $pdfUrl . '" class="btn btn-success btn-sm" target="_blank">Recibo</a>
-                           <form action="' . $deleteUrl . '"  method="POST" style="display:inline; " class="btn-delete">
-                            ' . csrf_field() . '
-                            ' . method_field('DELETE') . '
-                            <button type="submit" class="btn btn-danger btn-sm " >Eliminar</button>
-                        </form>';
+                
+                    $buttons = '<a href="' . $viewUrl . '" class="btn btn-info btn-sm">Detalles</a>
+                                <a href="' . $pdfUrl . '" class="btn btn-success btn-sm" target="_blank">Recibo</a>';
+                    
+                    if (Auth::user()->hasRole('superAdmin')) {
+                        $buttons .= '<form action="' . $deleteUrl . '" method="POST" style="display:inline;" class="btn-delete">
+                                        ' . csrf_field() . '
+                                        ' . method_field('DELETE') . '
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                     </form>';
+                    }
+                
+                    return $buttons;
                 })
+                
                 ->rawColumns(['status', 'actions'])
                 ->make(true);
         }
@@ -100,7 +115,8 @@ class PagoController extends Controller
     {
         //dd("test");
         $pago = Pago::findOrFail($id); // Get the payment record by ID
-        return view('pagos.edit', compact('pago')); // Return the edit view with the payment record
+        $formaPagoArray = json_decode($pago->forma_pago, true); 
+        return view('pagos.edit', compact('pago', 'formaPagoArray')); // Return the edit view with the payment record
     }
 
     /**
@@ -115,16 +131,42 @@ class PagoController extends Controller
         $pago = Pago::findOrFail($id); // Find the payment by ID
         $pago->status = $request->status; // Update the status
         $pago->save(); // Save the changes
-
+         
         $venta = Venta::where('pago_id', $id)->first();
-        $recibo = Recibo::where('pago_id', $id)->first();
+        // $recibo = Recibo::where('pago_id', $id)->first();
+        //   dd($recibo);
 
-        if (($request->status == 'Pagado' || $request->status == 'Rechazado') && $pago->tipo == 'Venta') {
+        if (($request->status == 'Pagado' || $request->status == 'Rechazado' && $request->status != null)) {
             $venta->status = $request->status;
             $venta->save();
 
-            $recibo->estatus = $request->status;
-            $recibo->save();
+            if($request->input('metodo') != null){
+                $bancoOrigen = $request->input('banco_origen');
+                $bancoDestino = $request->input('banco_destino');
+                $numeroReferencia = $request->input('numero_referencia');
+                $metodo = $request->input('metodo');
+                $montoDollar = 0; // Ejemplo de monto en dólares basado en la tasa de cambio
+        
+                $dollar = Tasa::where('name', 'Dollar')->where('status', 'Activo')->first();
+        
+                // Crear el array con el método de pago
+                $metodos = [
+                    [
+                        "metodo" => strtoupper($metodo),
+                        "cantidad" => $pago->montoTotal,
+                        "banco_origen" => strtoupper($bancoOrigen), // Para asegurarte de que los bancos estén en mayúsculas
+                        "banco_destino" => strtoupper($bancoDestino),
+                        "numero_referencia" => $numeroReferencia,
+                        "monto_bs" => $pago->monto_otal,
+                        "monto_dollar" => 0,
+                    ]
+                ];
+
+                $pago->forma_pago = json_encode($metodos);
+                $pago->save();
+            }
+
+          
         }
 
         Alert::success('¡Exito!', 'Pago actualizado exitosamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');

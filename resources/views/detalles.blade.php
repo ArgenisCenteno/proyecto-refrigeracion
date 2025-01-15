@@ -1,27 +1,29 @@
 @extends('layouts.app')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
 @section('content')
 <section class="content">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <div class="card card-solid">
         <div class="card-body">
             <div class="row">
                 <div class=" p-4 col-12 col-sm-6 j" style="box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;">
                     <h3 class="my-3" style="color: black; !important">{{$producto->nombre}}</h3>
-                   Descripción: <p>{{$producto->descripcion}}</p>
+                    <strong>Descripción</strong> : <p>{{$producto->descripcion}}</p>
                     <hr>
 
 
-                    <h4 class="mt-3 bold"><strong>Categoría:</strong> <small>  {{$producto->subcategoria->categoria->nombre}}
-                    {{$producto->subcategoria->nombre}}     </small></h4>
-                    <h4 class="mt-3 bold"> <strong>Subcategoría:</strong> <small> 
-                    {{$producto->subcategoria->nombre}}     </small></h4>
+                    <h4 class="mt-3 bold"><strong>Categoría:</strong> <small>
+                            {{$producto->subcategoria->categoria->nombre}}
+                            {{$producto->subcategoria->nombre}} </small></h4>
+                    <h4 class="mt-3 bold"> <strong>Subcategoría:</strong> <small>
+                            {{$producto->subcategoria->nombre}} </small></h4>
                     <div class="">
-                        <h2 class="mb-0 ">
-                            {{$producto->precio_venta}}
+                        <h2 class="mt-3 fw-bold">
+                            <span class="text-primary">USD {{ $producto->precio_venta }}</span>
+                            <br>
+                            <span class="text-muted">BS {{ $producto->precio_venta * $dollar }}</span>
+                            <br>
+                            <span class="text-danger">Disponible {{ $producto->cantidad }}</span>
                         </h2>
-
                     </div>
                     <div class="mt-4" style="margin-top: 160px !important;">
                         <form action="{{ route('carrito.agregar', $producto->id) }}" method="POST">
@@ -85,37 +87,36 @@
     </div>
 
     <div class="m-4">
-    <h3 class="mt-4">Productos Similares</h3>
-    <div class="row">
-        @foreach ($similares as $similar)
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm p-3">
-                <img src="{{$similar->imagenes->first()->url}}" style="height: 250px; object-fit: cover;" class="card-img-top" alt="...">
-                <div class="label-top shadow-sm">{{$similar->nombre}}</div>
-                <div class="card-body">
-                    <div class="clearfix mb-3">
-                        <span class="float-start badge rounded-pill bg-success">{{$similar->precio_venta}}</span>
-                    </div>
-                    <h5 class="card-title">{{$similar->descripcion}}</h5>
-                    <div class="text-center my-4">
-                        <a href="#" class="btn btn-info">Detalles</a>
-                    </div>
-                    <div class="clearfix mb-1">
-                        <span class="float-start"><i class="far fa-question-circle"></i></span>
-                        <span class="float-end"><i class="fas fa-plus"></i></span>
+        <h3 class="mt-4">Productos Similares</h3>
+        <div class="row">
+            @foreach ($similares as $similar)
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm p-3">
+                        <img src="{{$similar->imagenes->first()->url}}" style="height: 250px; object-fit: cover;"
+                            class="card-img-top" alt="...">
+                        <div class="label-top shadow-sm">{{$similar->nombre}}</div>
+                        <div class="card-body">
+                            <div class="clearfix mb-3">
+                                <span class="float-start badge rounded-pill bg-success">{{$similar->precio_venta}}</span>
+                            </div>
+                            <h5 class="card-title">{{$similar->descripcion}}</h5>
+                            <div class="text-center my-4">
+                                <a href="#" class="btn btn-info">Detalles</a>
+                            </div>
+                            <div class="clearfix mb-1">
+                                <span class="float-start"><i class="far fa-question-circle"></i></span>
+                                <span class="float-end"><i class="fas fa-plus"></i></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
-        @endforeach
     </div>
-</div>
 
 
 </section>
 
 @endsection
-@include('layout.script')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+@include('layout.script') 
 <script src="{{ asset('js/adminlte.js') }}"></script>

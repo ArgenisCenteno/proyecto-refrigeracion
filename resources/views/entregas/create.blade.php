@@ -1,6 +1,7 @@
 @extends('layout.app')
+
 @section('content')
-<main id="main" class="main"> <!--begin::App Content Header-->
+<main id="main"  class="main"> <!--begin::App Content Header-->
 <div class="container-fluid">
     <div class="animated fadeIn">
         <div class="row">
@@ -11,14 +12,12 @@
                             @include('flash::message')
                         </div>
                         <div class="col-md-6 col-6">
-                            <h3 class="p-2 bold">Gestión de Pago</h3>
+                            <h3 class="p-2 bold">Registrar entrega</h3>
                         </div>
-                       
                     </div>
                     <div >
-                  
-                        @include('pagos.fields')
-                    </div>
+                         @include('entregas.fields')
+                     </div>
                 </div>
             </div>
         </div>
@@ -27,4 +26,6 @@
 </main> <!--end::App Main--> <!--begin::Footer-->
 @endsection
 
+@section('js')
 @include('layout.script')
+<script src="{{ asset('js/adminlte.js') }}"></script>

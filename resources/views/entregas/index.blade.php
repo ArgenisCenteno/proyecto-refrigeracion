@@ -11,12 +11,12 @@
                             @include('flash::message')
                         </div>
                         <div class="col-md-6 col-6">
-                            <h3 class="p-2 bold">Compras</h3>
+                            <h3 class="p-2 bold">Entregas</h3>
                         </div>
                         <div class="d-flex justify-content-end mt-3">
-                                <a href="{{route('compras.comprar')}}" class="btn btn-primary  round mx-1" >Nueva Compra</a>
+                                <a href="{{route('entregas.create')}}" class="btn btn-primary  round mx-1" >Nueva Entrega</a>
                         </div>
-                        <form action="{{ route('compras.export') }}" method="GET">
+                        <form action="{{ route('entregas.export') }}" method="GET">
                                 @csrf
                                 <div class="row mb-3">
                                     <div class="col">
@@ -41,7 +41,7 @@
                     </div>
                     <div >
                   
-                        @include('compras.table')
+                        @include('entregas.table')
                     </div>
                 </div>
             </div>

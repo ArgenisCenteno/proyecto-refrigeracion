@@ -8,6 +8,7 @@
                 <th>Monto Total</th>
                 <th>Fecha</th>
                 <th>Estado</th>
+                <th>Estado de Entrega</th>
                 <th>Opciones</th>
             </tr>
         </thead>
@@ -37,6 +38,7 @@
                 { data: 'monto_total', name: 'monto_total' },
                 { data: 'fecha', name: 'fecha' },
                 { data: 'status', name: 'status' },
+                { data: 'estado_envio', name: 'estado_envio' },
                 { data: 'actions', name: 'actions', searchable: false, orderable: false }
             ],
             order: [[0, 'desc']],

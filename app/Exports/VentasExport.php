@@ -3,48 +3,35 @@
 namespace App\Exports;
 
 use App\Models\Venta;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class VentasExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize
+class VentasExport implements FromView, ShouldAutoSize
 {
-    public function collection()
+    protected $startDate;
+    protected $endDate;
+
+    public function __construct($startDate, $endDate)
     {
-        // Load related models with the ventas to reduce queries
-        return Venta::with(['user', 'vendedor', 'pago'])->get();
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
     }
 
-    public function headings(): array
+    public function view(): View
     {
-        // Define the headers for the Excel file
-        return [
-            'ID',
-            'Cliente',
-            'Vendedor',
-            'Monto Total',
-            'Status',
-            'Porcentaje Descuento',
-            'Monto de Pago',
-            'Created At',
-            'Updated At'
-        ];
-    }
+        $ventas = Venta::with(['user', 'vendedor'])
+        ->when($this->startDate == $this->endDate, function ($query) {
+            // Si las fechas son iguales, filtra las ventas por el mismo día
+            $query->whereDate('created_at', $this->startDate);
+        }, function ($query) {
+            // Si las fechas son diferentes, filtra por el rango completo
+            $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+        })
+        ->get();
+    
 
-    public function map($venta): array
-    {
-        // Map the data for each venta
-        return [
-            $venta->id,
-            $venta->user ? $venta->user->name : 'N/A', // Get the user name or 'N/A'
-            $venta->vendedor ? $venta->vendedor->name : 'N/A', // Get the vendedor name or 'N/A'
-            $venta->monto_total,
-            $venta->status,
-            $venta->porcentaje_descuento . '%' ?? 0,
-            $venta->pago ? $venta->pago->monto_total : 'N/A', // Get the pago amount or 'N/A'
-            $venta->created_at,
-            $venta->updated_at
-        ];
+        return view('exports.ventas', compact('ventas'));
     }
 }

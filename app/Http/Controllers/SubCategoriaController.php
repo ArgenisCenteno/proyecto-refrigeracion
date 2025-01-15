@@ -9,6 +9,7 @@ use Flash;
 use Alert;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
 class SubCategoriaController extends Controller
 {
     /**
@@ -19,13 +20,20 @@ class SubCategoriaController extends Controller
         if ($request->ajax()) {
             $subcategorias = SubCategoria::with('categoria')->get();
             return DataTables::of($subcategorias)
-                ->addColumn('actions', function($row) {
-                    return '<a href="'.route('subcategorias.edit', [$row->id]).'" class="btn btn-success"><span >Editar</span></a>
-                            <form action="'.route('subcategorias.destroy', [$row->id]).'" method="POST" style="display:inline;">
-                            '.csrf_field().method_field('DELETE').'
-                            <button type="submit" class="btn btn-danger"><span >Eliminar</span></button>
-                            </form>';
-                })
+            ->addColumn('actions', function($row) {
+                $editButton = '<a href="'.route('subcategorias.edit', [$row->id]).'" class="btn btn-success"><span>Editar</span></a>';
+                
+                $deleteButton = '';
+                if (Auth::user()->hasRole('superAdmin')) {
+                    $deleteButton = '<form action="'.route('subcategorias.destroy', [$row->id]).'" method="POST" style="display:inline;">
+                                        '.csrf_field().method_field('DELETE').'
+                                        <button type="submit" class="btn btn-danger"><span>Eliminar</span></button>
+                                     </form>';
+                }
+            
+                return $editButton . $deleteButton;
+            })
+            
                 ->editColumn('status', function($row) {
                     return $row->status ? '<span class="badge badge-success">Activo</span>' : '<span class="badge badge-danger">Inactivo</span>';
                 })

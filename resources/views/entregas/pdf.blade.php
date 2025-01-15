@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Nota de pago</title>
+    <title>Nota de Entrega</title>
 
     <link rel="stylesheet" href="{{ public_path('css/bootstrap.min.css') }}"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
@@ -47,7 +47,7 @@
                         FRIONAX C.A
                     </th>
                     @php
-                        $id = str_pad($pago->id, 8, "0", STR_PAD_LEFT);
+                        $id = str_pad($entrega->id, 8, "0", STR_PAD_LEFT);
                     @endphp
                     <th
                         style="border-bottom: 2px solid #ddd; padding: 8px; text-align: center; font-size: 22px; width: 15%;">
@@ -59,7 +59,7 @@
 
 
         <!-- Título -->
-        <h3 style="text-align: center; color: #333; font-size: 24px; margin: 20px 0;">NOTA DE PAGO</h3>
+        <h3 style="text-align: center; color: #333; font-size: 24px; margin: 20px 0;">NOTA DE ENTREGA</h3>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
             <thead>
                 <tr>
@@ -90,7 +90,7 @@
 
                 <tr>
                     <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$userArray['name']}}</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$pago->empleado->name ?? ''}}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$entrega->empleado->name}}</td>
 
 
                 </tr>
@@ -99,7 +99,32 @@
 
 
         <!-- Tabla de productos -->
-        
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr>
+                    <th style="padding: 8px; text-align: left;">PRODUCTO</th>
+                    <th style="padding: 8px; text-align: left;">CANT.</th>
+                    <th style="padding: 8px; text-align: left;">PRECIO UNIT.</th>
+                    <th style="padding: 8px; text-align: left;">IVA</th>
+                    <th style="padding: 8px; text-align: left;">NETO</th>
+                    <th style="padding: 8px; text-align: left;">TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($entrega->venta->detalleVentas as $detalle)
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$detalle->producto->nombre}}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$detalle->cantidad}}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$detalle->precio_producto}}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$detalle->impuesto}}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$detalle->neto}}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+                            {{number_format($detalle->impuesto + $detalle->neto, 2)}}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
         <h5>Forma de Pago</h5>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
             <thead>
@@ -115,11 +140,11 @@
                 @foreach ($formaPagoArray as $pagos)
                     <tr>
                         <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ $pagos['metodo'] }}</td>
-                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ $pagos['banco_destino'] ?? '' }}</td>
-                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ $pagos['numero_referencia'] ?? '' }}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ $pagos['banco_destino'] }}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ $pagos['numero_referencia'] }}</td>
                         <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ $pagos['metodo'] === 'Divisa' ? 'Dólar' : 'Bolívar' }}</td>
                         </td>
-                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ number_format($pago->monto_total, 2) }}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ number_format($entrega->venta->pago->monto_total, 2) }}</td>
                     </tr>
                 @endforeach
             </tbody>

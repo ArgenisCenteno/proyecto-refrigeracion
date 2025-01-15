@@ -2,12 +2,14 @@
 
 namespace App\Exports;
 
-use App\Models\Compra;
+use App\Models\Entrega;
+use App\Models\Venta;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class ComprasExport implements FromView, ShouldAutoSize
+class EntregaExport implements FromView, ShouldAutoSize
 {
     protected $startDate;
     protected $endDate;
@@ -20,17 +22,17 @@ class ComprasExport implements FromView, ShouldAutoSize
 
     public function view(): View
     {
-        $compras = Compra::with(['proveedor', 'user'])
+        $entregas = Entrega::with(['empleado', 'venta'])
         ->when($this->startDate == $this->endDate, function ($query) {
-            // Si las fechas son iguales, filtra por el mismo día
+            // Si las fechas son iguales, filtra las ventas por el mismo día
             $query->whereDate('created_at', $this->startDate);
         }, function ($query) {
-            // Si las fechas son diferentes, filtra por rango
+            // Si las fechas son diferentes, filtra por el rango completo
             $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
         })
         ->get();
     
 
-        return view('exports.compras', compact('compras'));
+        return view('exports.entregas', compact('entregas'));
     }
 }

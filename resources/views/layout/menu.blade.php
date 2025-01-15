@@ -9,7 +9,16 @@
       <span>Dashboard</span>
     </a>
   </li><!-- End Dashboard Nav -->
+  @if(Auth::user()->hasRole('superAdmin'))
+  <li class="nav-item">
+    <a class="nav-link " href="{{route('usuarios.index')}}">
+    <i class="bi bi-person"></i>
 
+      <span>Usuarios</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
+  @endif
+  @if(Auth::user()->hasRole('superAdmin|empleado'))
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-menu-button-wide"></i><span>Almacen</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -30,15 +39,10 @@
           <i class="bi bi-circle"></i><span>Productos</span>
         </a>
       </li>
-      <li>
-        <a href="#">
-          <i class="bi bi-circle"></i><span>Promociones</span>
-        </a>
-      </li>
       
     </ul>
   </li><!-- End Components Nav -->
-
+@endif
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-journal-text"></i><span>Ventas</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -54,15 +58,16 @@
           <i class="bi bi-circle"></i><span>Ventas</span>
         </a>
       </li>
+      @if(Auth::user()->hasRole('superAdmin|empleado'))
       <li>
-        <a href="forms-editors.html">
-          <i class="bi bi-circle"></i><span>Reportes</span>
+        <a href="{{route('entregas.index')}}">
+          <i class="bi bi-circle"></i><span>Entregas</span>
         </a>
       </li>
-     
+     @endif
     </ul>
   </li><!-- End Forms Nav -->
-
+  @if(Auth::user()->hasRole('superAdmin|empleado'))
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-layout-text-window-reverse"></i><span>Entradas</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -80,31 +85,31 @@
         </a>
       </li>
     </ul>
+  
   </li><!-- End Tables Nav -->
 
+  @endif
+  @if(Auth::user()->hasRole('cliente'))
   <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-bar-chart"></i><span>Reportes</span><i class="bi bi-chevron-down ms-auto"></i>
+    <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-layout-text-window-reverse"></i><span>General</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
-    <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+    <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
       <li>
-        <a href="{{route('productoss.export')}}">
-          <i class="bi bi-circle"></i><span>Productos</span>
+        <a href="{{route('carrito.show')}}">
+          <i class="bi bi-circle"></i><span>Carrito</span>
         </a>
       </li>
+    
       <li>
-        <a href="{{route('ventas.export')}}">
-          <i class="bi bi-circle"></i><span>Ventas</span>
-        </a>
-      </li>
-      <li>
-        <a href="{{route('compras.export')}}">
-          <i class="bi bi-circle"></i><span>Compras</span>
+        <a href="{{url('/')}}">
+          <i class="bi bi-circle"></i><span>Seguir comprando</span>
         </a>
       </li>
     </ul>
-  </li><!-- End Charts Nav -->
-
+  
+  </li><!-- End Tables Nav -->
+  @endif
 
 </ul>
 

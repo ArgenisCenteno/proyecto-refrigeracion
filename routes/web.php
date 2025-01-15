@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CajaController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\CompraController;
+use App\Http\Controllers\EntregaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\PagoController;
@@ -66,12 +67,13 @@ Route::post('/agregarImagen/{id}', [ProductoController::class, 'agregarImagen'])
 Route::resource('categorias', App\Http\Controllers\CategoriaController::class);
 Route::resource('subcategorias', App\Http\Controllers\SubCategoriaController::class);
 Route::get('/datos/export', [ProductoController::class, 'export'])->name('productoss.export');
-Route::get('ventas/export', function () {
-    return Excel::download(new VentasExport, 'ventas.xlsx');
-})->name('ventas.export');
-Route::get('compras/export', function () {
-    return Excel::download(new ComprasExport, 'compras.xlsx');
-})->name('compras.export');
+
+Route::get('ventas/export', [VentaController::class, 'export'])->name('ventas.export');
+Route::get('compras/export', [CompraController::class, 'export'])->name('compras.export');
+Route::get('entregas/export', [EntregaController::class, 'export'])->name('entregas.export');
+
+Route::resource('entregas', EntregaController::class);
+
 /* CAJAS */
 Route::resource('cajas', App\Http\Controllers\CajaController::class);
 Route::get('/aperturar/{id}', [CajaController::class, 'aperturarCaja'])->name('cajas.aperturar');
@@ -83,6 +85,7 @@ Route::get('/vender', [VentaController::class, 'vender'])->name('ventas.vender')
 Route::get('/datatableProductoVenta', [VentaController::class, 'datatableProductoVenta'])->name('ventas.datatableProductoVenta');
 Route::post('/generarVenta', [VentaController::class, 'generarVenta'])->name('ventas.generarVenta');
 Route::get('/pdfVenta/{id}', [PdfController::class, 'pdfVenta'])->name('ventas.pdf');
+Route::get('/pdfEntrega/{id}', [EntregaController::class, 'pdf'])->name('entregas.pdf');
 
 // Ruta para obtener un producto por su ID
 Route::get('/producto/{id}', [VentaController::class, 'obtenerProducto'])->name('productos.obtener');

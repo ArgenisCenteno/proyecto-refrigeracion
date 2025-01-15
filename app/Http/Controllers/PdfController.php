@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Alert;
 use Carbon;
 use PDF;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class PdfController extends Controller
 {
     public function pdfVenta(Request $request, $id)
@@ -20,18 +21,20 @@ class PdfController extends Controller
             Alert::error('¡Error!', 'Venta no encontrada.')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
             return redirect(route('ventas.index'));
         }
+
+        
         // Ocultar 'password' y 'remember_token' y convertir a array
-        $userArray = $venta->user->makeHidden(['password', 'remember_token'])->toArray();
+         $userArray = $venta->user->makeHidden(['password', 'remember_token'])->toArray();
         $fechaVenta = $venta->created_at->format('d-m-Y');
-        $pago = $venta->pago;
-        $fechapago = $pago->created_at->format('d-m-Y');
+        $formaPagoArray = json_decode($venta->pago->forma_pago, true); 
+        $ventaId = $venta->id;
+         $qrCode = QrCode::size(120)->generate('http://127.0.0.1:8000/pdfVenta/' . $id);
 
        // dd($vendedorArray);
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('ventas.pdf', compact('venta', 'pago', 'fechapago','userArray', 'fechaVenta'));
+        $pdf->loadView('ventas.pdf', compact('qrCode','venta', 'formaPagoArray', 'userArray', 'fechaVenta'));
         return $pdf->stream('venta.pdf');
     }
-
     public function pdfCompra(Request $request, $id)
     {
         $compra = Compra::with('detalleCompras', 'user', 'proveedor', 'pago')->where('id', $id)->first();
@@ -72,14 +75,15 @@ class PdfController extends Controller
 
         // Ocultar 'password' y 'remember_token' y convertir a array
         $userArray = $pago->user->makeHidden(['password', 'remember_token'])->toArray();
-      
+        $qrCode = QrCode::size(120)->generate('http://127.0.0.1:8000/pdfPago/' . $id);
+
         $fechapago = $pago->created_at->format('d-m-Y');
         $formaPagoArray = json_decode($pago->forma_pago, true); 
 
 
        // dd($vendedorArray);
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadView('pagos.pdf', compact('pago', 'formaPagoArray', 'userArray', 'detalles' , 'fechapago'));
+        $pdf->loadView('pagos.pdf', compact('qrCode','pago', 'formaPagoArray', 'userArray', 'detalles' , 'fechapago'));
         return $pdf->stream('venta.pdf');
     }
 

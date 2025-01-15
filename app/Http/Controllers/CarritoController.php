@@ -59,9 +59,35 @@ class CarritoController extends Controller
 
         // dd($similares);
 
+        function isConnected()
+        {
+            $connected = @fsockopen("www.google.com", 80); // Intenta conectar al puerto 80 de Google
+            if ($connected) {
+                fclose($connected);
+                return true; // Hay conexión
+            }
+            return false; // No hay conexión
+        }
+
+        if (isConnected()) {
+            $response = file_get_contents("https://ve.dolarapi.com/v1/dolares/oficial");
+          
+        } else {
+             
+            $response = false;
+        }
+ 
 
 
-        return view('detalles')->with('producto', $producto)->with('similares', $similares);
+        // dd();
+        if ($response) {
+            $dato = json_decode($response);
+            $dollar = $dato->promedio;
+        } else {
+            $dollar =  54.60;
+        }
+
+        return view('detalles')->with('dollar', $dollar)->with('producto', $producto)->with('similares', $similares);
     }
 
     public function productosPorCategoria($categoriaId)
@@ -81,13 +107,16 @@ class CarritoController extends Controller
     {
         // Retrieve the product based on ID
         $producto = Producto::find($id);
-
+    
         if (!$producto) {
             return redirect()->back()->with('error', 'Producto no encontrado');
         }
-
-
-
+    
+        // Check if product quantity is available
+        if ($producto->cantidad < 1) {
+            return redirect()->back()->with('error', 'Producto agotado');
+        }
+    
         // Create a cart item
         $cartItem = [
             'id' => $producto->id,
@@ -96,54 +125,82 @@ class CarritoController extends Controller
             'precio' => $producto->precio_venta,
             'imagen' => asset($producto->imagenes[0]->url) // Use the first image
         ];
-
+    
         // Get existing cart from session
         $cart = Session::get('cart', []);
-
-        if (count($cart) > 0) {
-            foreach ($cart as $key => $item) {
-                if ($item['nombre'] === $producto->nombre) {
-                    $cart[$key]['cantidad'] += 1; // Update quantity
-                    session()->put('cart', $cart);
-                    Alert::success('Exito!', 'Cantidad aumentada')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
-                    return redirect()->back();
-                } else {
-                    // Add product to the cart
-                    $cart[] = $cartItem;
-
+    
+        // Check if product already exists in the cart
+        foreach ($cart as $key => $item) {
+            if ($item['id'] === $producto->id) {
+                // Check if adding one more exceeds the available stock
+                if ($item['cantidad'] + 1 > $producto->cantidad) {
+                    return redirect()->back()->with('error', 'No hay suficiente stock disponible');
                 }
+    
+                // Update quantity
+                $cart[$key]['cantidad'] += 1;
+                session()->put('cart', $cart);
+                Alert::success('Éxito!', 'Cantidad incrementada')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
+                return redirect()->back();
             }
-        } else {
-            $cart[] = $cartItem;
         }
-
-
-
-
+    
+        // Add product to the cart
+        if ($cartItem['cantidad'] <= $producto->cantidad) {
+            $cart[] = $cartItem;
+        } else {
+            return redirect()->back()->with('error', 'No hay suficiente stock disponible');
+        }
+    
         // Save the cart back to session
         Session::put('cart', $cart);
-        Alert::success('Exito!', 'Producto agregado al carrito')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
+        Alert::success('Éxito!', 'Producto agregado al carrito')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
         return redirect()->back();
     }
-
+    
     public function actualizarCarrito(Request $request)
     {
+        // Get the cart from the session
         $carrito = session()->get('cart');
-
+    
         // Check if the cart exists
         if ($carrito) {
             // Find the product by name
             foreach ($carrito as $key => $item) {
                 if ($item['nombre'] === $request->product) {
-                    $carrito[$key]['cantidad'] = $request->cantidad; // Update quantity
+                    // Retrieve the product from the database
+                    $producto = Producto::find($item['id']);
+                    
+                    if (!$producto) {
+                        return response()->json(['success' => false, 'message' => 'Producto no encontrado en base de datos.']);
+                    }
+    
+                    // Check if the requested quantity exceeds available stock
+                    if ($request->cantidad > $producto->cantidad) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Cantidad solicitada excede el stock disponible.',
+                        ]);
+                    }
+    
+                    // Update quantity in the cart
+                    $carrito[$key]['cantidad'] = $request->cantidad;
                     session()->put('cart', $carrito);
-                    return response()->json(['success' => true, 'message' => 'Carrito actualizado.']);
+    
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Carrito actualizado.',
+                    ]);
                 }
             }
         }
-
-        return response()->json(['success' => false, 'message' => 'Item no encontrado en carrito']);
+    
+        return response()->json([
+            'success' => false,
+            'message' => 'Item no encontrado en carrito',
+        ]);
     }
+    
 
     public function checkout(Request $request)
     {
@@ -191,7 +248,33 @@ class CarritoController extends Controller
     public function show()
     {
         $cart = Session::get('cart', []);
+        function isConnected()
+        {
+            $connected = @fsockopen("www.google.com", 80); // Intenta conectar al puerto 80 de Google
+            if ($connected) {
+                fclose($connected);
+                return true; // Hay conexión
+            }
+            return false; // No hay conexión
+        }
 
+        if (isConnected()) {
+            $response = file_get_contents("https://ve.dolarapi.com/v1/dolares/oficial");
+          
+        } else {
+             
+            $response = false;
+        }
+ 
+
+
+        // dd();
+        if ($response) {
+            $dato = json_decode($response);
+            $dollar = $dato->promedio;
+        } else {
+            $dollar =  54.60;
+        }
 
         $total = 0;
 
@@ -202,7 +285,7 @@ class CarritoController extends Controller
         }
 
 
-        return view('carrito', compact('cart', 'total'));
+        return view('carrito', compact('cart', 'total', 'dollar'));
     }
 
     /**

@@ -3,137 +3,151 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprobante de Venta - Suptrima</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ortimed</title>
+
+    <link rel="stylesheet" href="{{ public_path('css/bootstrap.min.css') }}"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            width: 80%; /* Adjust the width as needed */
-            margin: 20px auto; /* Center the container and add vertical margin */
-            text-align: center; /* Center the text */
-        }
-
-        header {
-            margin-bottom: 20px; /* Space below the header */
-        }
-
-        h2, h4, p {
-            margin: 10px 0; /* Space around headings and paragraphs */
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Three equal columns */
-            gap: 15px; /* Space between grid items */
-            margin-bottom: 20px; /* Space below the grid */
-            text-align: left; /* Align text to the left within grid items */
-        }
-
-        table {
-            width: 100%; /* Full width for the table */
-            border-collapse: collapse; /* Remove double borders */
-            margin: 20px 0; /* Space above and below the table */
-        }
-
-        th, td {
-            border: 1px solid #000; /* Border for table cells */
-            padding: 8px; /* Padding inside table cells */
-            text-align: center; /* Center text in table cells */
-        }
-
-        footer {
-            margin-top: 20px; /* Space above the footer */
+        thead {
+           
+            /* Verde Success */
+            color: black;
+            /* Texto blanco para contraste */
         }
     </style>
 </head>
 
-<body>
+<body
+    style="font-family: Arial, sans-serif; margin: 0; padding: 10px; line-height: 1.6; border: none; background-color: #f9f9f9;">
+    <div
+        style="max-width: 800px; margin: auto; padding: 10px; border-radius: 8px; background: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <!-- Encabezado -->
+        <div
+            style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 10px; border-bottom: 2px solid #ddd;">
+            <div style="width: 20%; flex: 1;">
+            </div>
+            <div style="text-align: center; flex: 1;">
 
-    <div class="container">
+                <h1 style="margin: 0;  color: #333;"></h1>
+            </div>
 
-        <header>
-            <h2>FRIONAX</h2>
-            <p>REPÚBLICA BOLIVARIANA DE VENEZUELA</p>
-            <p>MUNICIPIO EZEQUIEL ZAMORA, ESTADO MONAGAS</p>
-            <p>PUNTA DE MATA</p>
-          
-        </header>
+        </div>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr>
+                    <th
+                        style="border-bottom: 2px solid #ddd; padding: 8px; text-align: center; font-size: 18px; width: 15%;">
+                      
+                    </th>
+                    <th colspan="2"
+                        style="border-bottom: 2px solid #ddd; padding: 8px; text-align: center; font-size: 22px; font-weight: bold; width: 70%;">
+                       FRIONAX C.A
+                    </th>
+                    @php
+                        $id = str_pad($venta->id, 8, "0", STR_PAD_LEFT);
+                    @endphp
+                    <th
+                        style="border-bottom: 2px solid #ddd; padding: 8px; text-align: center; font-size: 22px; width: 15%;">
+                        {{$id}}
+                    </th>
+                </tr>
+            </thead>
+        </table>
 
-        <h4>Comprobante de Venta</h4>
-        
-        <div class="grid">
-            <div>
-                <p><strong>Venta N°:</strong> {{ str_pad($venta->id, 6, "0", STR_PAD_LEFT) }}</p>
+
+        <!-- Título -->
+        <h3 style="text-align: center; color: #333; font-size: 24px; margin: 20px 0;">RECIBO DE VENTA</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr>
+                    <th style="padding: 8px; text-align: left;">DIRECCIÓN</th>
+                    <th style="padding: 8px; text-align: left;">CIUDAD.</th>
+                    <th style="padding: 8px; text-align: left;">FECHA.</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">CALLE EZEQUIEL ZAMORA, FRENTE CENTRO
+                        CLINICO PUNTA DE MATA</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">MONAGAS</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$fechaVenta}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Detalles del cliente y vendedor -->
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr>
+                    <th style="padding: 8px; text-align: left;">CLIENTE</th>
+                    <th style="padding: 8px; text-align: left;">VENDEDOR.</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$userArray['name']}}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;"></td>
+
+
+                </tr>
+            </tbody>
+        </table>
+
+
+        <!-- Tabla de productos -->
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+                <tr>
+                    <th style="padding: 8px; text-align: left;">PRODUCTO</th>
+                    <th style="padding: 8px; text-align: left;">CANT.</th>
+                    <th style="padding: 8px; text-align: left;">PRECIO UNIT.</th>
+                    <th style="padding: 8px; text-align: left;">IVA</th>
+                    <th style="padding: 8px; text-align: left;">NETO</th>
+                    <th style="padding: 8px; text-align: left;">TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($venta->detalleVentas as $detalle)
+                    <tr>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$detalle->producto->nombre}}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$detalle->cantidad}}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$detalle->precio_producto}}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$detalle->impuesto}}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$detalle->neto}}</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+                            {{number_format($detalle->impuesto + $detalle->neto, 2)}}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <!-- Resumen de totales -->
+        <div style="display: flex; justify-content: space-between; margin-top: 20px; align-items: flex-start;">
+            <!-- Contenedor del QR -->
+           
+
+            <!-- Contenedor de los montos -->
+            <div
+                style="text-align: right; padding: 10px; border: 2px solid #ddd; border-radius: 8px; background-color: #f9f9f9; flex-grow: 1;">
+                <div style="text-align: left; margin-right: 20px;">
+                 <img src="data:image/svg+xml;base64,{{ base64_encode($qrCode) }}" alt="QR Code">
             </div>
-            <div>
-                <p><strong>Tipo:</strong> {{$venta->pago->tipo}}</p>
-            </div>
-            <div>
-                <p><strong>Fecha:</strong> {{$fechaVenta}}</p>
-            </div>
-            <div>
-                <p><strong>C.I / R.I.F:</strong> {{$userArray['dni']}}</p>
-            </div>
-            <div>
-                <p><strong>NOMBRE/RAZÓN SOCIAL:</strong> {{$userArray['name']}}</p>
-            </div>
-            <div>
-                <p><strong>DIRECCIÓN:</strong> 
-                    {{ $userArray['sector'] ?? 'Sector no disponible' }},
-                    {{ $userArray['calle'] ?? 'Calle no disponible' }},
-                    {{ $userArray['casa'] ?? 'Casa no disponible' }}
-                </p>
-            </div>
-            <div>
-                <p><strong>CORREO ELECTRÓNICO:</strong> {{ $userArray['email'] ?? 'Correo no disponible' }}</p>
-            </div>
-            <div>
-                <p><strong>N° de Pago:</strong> {{ str_pad($pago->id, 6, '0', STR_PAD_LEFT) }}</p>
-            </div>
-            <div>
-                <p><strong>Tipo:</strong> {{ $pago->tipo }}</p>
-            </div>
-            <div>
-                <p><strong>Fecha:</strong> {{ $fechapago }}</p>
+                <p style="margin: 0; padding: 5px; border-bottom: 1px solid #ddd;"><strong>SUBTOTAL:</strong>
+                    {{$venta->pago->monto_neto}}</p>
+                <p style="margin: 0; padding: 5px; border-bottom: 1px solid #ddd;"><strong>IVA (16%):</strong>
+                    {{$venta->pago->impuestos}}</p>
+                <p style="margin: 0; padding: 5px;"><strong>MONTO TOTAL:</strong> {{$venta->pago->monto_total}}</p>
             </div>
         </div>
 
-        <h4>Productos Adquiridos</h4>
-        <table>
-            <tr>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Neto</th>
-                <th>Impuesto</th>
-                <th>Subtotal</th>
-            </tr>
 
-            @foreach ($venta->detalleVentas as $detalle)
-                <tr>
-                    <td>{{ $detalle->producto->nombre ?? 'Producto no disponible' }}</td>
-                    <td>{{ number_format($detalle->precio_producto, 2) }}</td>
-                    <td>{{ number_format($detalle->cantidad, 2) }}</td>
-                    <td>{{ number_format($detalle->neto, 2) }}</td>
-                    <td>{{ number_format($detalle->impuesto, 2) }}</td>
-                    <td>{{ number_format($detalle->neto + $detalle->impuesto, 2) }}</td>
-                </tr>
-            @endforeach
-        </table>
-
-        <footer>
-            <p>Gracias por su compra</p>
-            <p>Este comprobante es válido como recibo de venta</p>
-        </footer>
 
     </div>
-
 </body>
 
 </html>

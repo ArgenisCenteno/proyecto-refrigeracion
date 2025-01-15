@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Exports\ComprasExport;
 use App\Models\Caja;
 use App\Models\Compra;
 use App\Models\DetalleCompra;
@@ -16,7 +17,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Alert;
 use Illuminate\Support\Facades\Auth;
-
+use Maatwebsite\Excel\Facades\Excel;
 class CompraController extends Controller
 {
     public function index(Request $request)
@@ -49,14 +50,20 @@ class CompraController extends Controller
                     $viewUrl = route('compras.show', $row->id);
                     $deleteUrl = route('compras.destroy', $row->id);
                     $pdfUrl = route('compras.pdf', $row->id); // Asegúrate de que la ruta esté correcta
-                    return '<a href="'.$viewUrl.'" class="btn btn-primary btn-sm">Detalles</a>
-                           
-                           <form action="'.$deleteUrl.'"  method="POST" style="display:inline; " class="btn-delete">
-                            '.csrf_field().'
-                            '.method_field('DELETE').'
-                            <button type="submit" class="btn btn-danger btn-sm " >Eliminar</button>
-                        </form>';
+                
+                    $actions = '<a href="'.$viewUrl.'" class="btn btn-primary btn-sm">Detalles</a>';
+                
+                    if (Auth::user()->hasRole('superAdmin')) {
+                        $actions .= '<form action="'.$deleteUrl.'" method="POST" style="display:inline;" class="btn-delete">
+                                        '.csrf_field().'
+                                        '.method_field('DELETE').'
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                     </form>';
+                    }
+                
+                    return $actions;
                 })
+                
                 ->rawColumns(['status', 'actions'])
                 ->make(true);
         }
@@ -284,5 +291,35 @@ class CompraController extends Controller
     {
         $compra = Compra::with(['user', 'proveedor', 'pago', 'detalleCompras'])->find($id);
         return view('compras.show', compact('compra'));
+    }
+
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+    
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+        $type = $request->type;
+    
+        if ($type == 'EXCEL') {
+            return Excel::download(new ComprasExport($startDate, $endDate), 'compras.xlsx');
+        } elseif ($type == 'PDF') {
+            $compras = Compra::with(['proveedor', 'user'])
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->get();
+            
+                if(count($compras) == 0){
+                    Alert::warning('¡Advertencia!', 'Sin registros encontrados')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
+                    return redirect()->back();
+                }
+                
+            $pdf = \PDF::loadView('exports.compras_pdf', compact('compras'));
+    
+            // Abre el PDF en el navegador
+            return $pdf->stream('compras.pdf');
+        }
     }
 }

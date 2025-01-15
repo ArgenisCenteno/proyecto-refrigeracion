@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VentasExport;
 use App\Models\Caja;
 use App\Models\DetalleVenta;
 use App\Models\Pago;
@@ -16,7 +17,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Alert;
 use Illuminate\Support\Facades\Auth;
-
+use Maatwebsite\Excel\Facades\Excel;
 class VentaController extends Controller
 {
     /**
@@ -25,7 +26,14 @@ class VentaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Venta::with(['user', 'vendedor', 'pago'])->get();
+
+            if(Auth::user()->hasRole('superAdmin|empleado')){
+                $data = Venta::with(['user', 'vendedor', 'pago'])->get();
+
+            }else{
+                $data = Venta::with(['user', 'vendedor', 'pago'])->where('user_id', Auth::user()->id)->get();   
+
+            }
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('user', function($row) {
@@ -48,19 +56,31 @@ class VentaController extends Controller
                     $class = $status == 'Pagado' ? 'success' : 'danger'; // Clase basada en el estado
                     return '<span class="badge bg-' . $class . '">' . $status . '</span>';
                 })
+                ->addColumn('estado_envio', function($row) {
+                    $status = $row->estado_envio;
+                    $class = $status == 'Entregado' ? 'success' : 'danger'; // Clase basada en el estado
+                    return '<span class="badge bg-' . $class . '">' . $status . '</span>';
+                })
                 ->addColumn('actions', function($row) {
                     $viewUrl = route('ventas.show', $row->id);
                     $deleteUrl = route('ventas.destroy', $row->id);
-                    $pdfUrl = route('ventas.pdf', $row->id); // Asegúrate de que la ruta esté correcta
-                    return '<a href="'.$viewUrl.'" class="btn btn-info btn-sm">Detalles</a>
-                            <a href="'.$pdfUrl.'" class="btn btn-warning btn-sm" target="_blank">Recibo</a>
-                           <form action="'.$deleteUrl.'"  method="POST" style="display:inline; " class="btn-delete">
-                            '.csrf_field().'
-                            '.method_field('DELETE').'
-                            <button type="submit" class="btn btn-danger btn-sm " >Eliminar</button>
-                        </form>';
+                    $pdfUrl = route('ventas.pdf', $row->id);
+                
+                    $actions = '<a href="'.$viewUrl.'" class="btn btn-info btn-sm">Detalles</a>
+                                <a href="'.$pdfUrl.'" class="btn btn-warning btn-sm" target="_blank">Recibo</a>';
+                
+                    if (Auth::user()->hasRole('superAdmin')) {
+                        $actions .= '<form action="'.$deleteUrl.'" method="POST" style="display:inline;" class="btn-delete">
+                                        '.csrf_field().'
+                                        '.method_field('DELETE').'
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                     </form>';
+                    }
+                
+                    return $actions;
                 })
-                ->rawColumns(['status', 'actions'])
+                
+                ->rawColumns(['status', 'actions', 'estado_envio'])
                 ->make(true);
         }
     
@@ -299,5 +319,30 @@ class VentaController extends Controller
     {
         $venta = Venta::with(['user', 'vendedor', 'pago', 'detalleVentas'])->find($id);
         return view('ventas.show', compact('venta'));
+    }
+
+    public function export(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+    
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+        $type = $request->type;
+    
+        if ($type == 'EXCEL') {
+            return Excel::download(new VentasExport($startDate, $endDate), 'ventas.xlsx');
+        } elseif ($type == 'PDF') {
+            $ventas = Venta::with(['user', 'vendedor'])
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->get();
+    
+            $pdf = \PDF::loadView('exports.ventas_pdf', compact('ventas'));
+    
+            // Abre el PDF en el navegador
+            return $pdf->stream('ventas.pdf');
+        }
     }
 }
