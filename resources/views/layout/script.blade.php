@@ -121,4 +121,30 @@
         });
     });
 </script>
+<script>
+    document.getElementById('metodo').addEventListener('change', function () {
+        const metodo = this.value;
+        const inputsToToggle = [
+            'banco_origen',
+            'banco_destino',
+            'numero_referencia',
+            'comprobante'
+        ];
+
+        inputsToToggle.forEach(id => {
+            const input = document.getElementById(id);
+            if (metodo === 'Pagar en tienda') {
+                input.setAttribute('readonly', true);
+                if (input.tagName === 'SELECT') {
+                    input.setAttribute('disabled', true);
+                }
+            } else {
+                input.removeAttribute('readonly');
+                if (input.tagName === 'SELECT') {
+                    input.removeAttribute('disabled');
+                }
+            }
+        });
+    });
+</script>
     @endpush

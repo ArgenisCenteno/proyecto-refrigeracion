@@ -89,7 +89,7 @@ class CarritoController extends Controller
 
         return view('detalles')->with('dollar', $dollar)->with('producto', $producto)->with('similares', $similares);
     }
-
+    
     public function productosPorCategoria($categoriaId)
     {
         // Encuentra la categoría
@@ -99,6 +99,17 @@ class CarritoController extends Controller
         $productos = Producto::whereHas('subcategoria', function ($query) use ($categoria) {
             $query->where('categoria_id', $categoria->id);
         })->get();
+
+        return view('categorias', compact('productos'));
+    }
+
+    public function productosPorSubcategoria($categoriaId)
+    {
+        // Encuentra la categoría
+        $categoria = Subcategoria::findOrFail($categoriaId);
+
+        // Obtiene todos los productos de las subcategorías relacionadas
+        $productos = Producto::where('sub_categoria_id', $categoria->id)->get();
 
         return view('categorias', compact('productos'));
     }

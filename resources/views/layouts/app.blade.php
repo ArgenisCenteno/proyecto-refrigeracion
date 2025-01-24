@@ -9,8 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
@@ -38,6 +37,13 @@
 
         body {
             font-family: "Roboto" !important;
+        }
+
+        .navbar-nav .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+            /* Alinea el submenú con el menú principal */
+            transition: 0.3s ease-in-out;
         }
 
         /*--------------------------------------------------------------
@@ -231,13 +237,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#">Ubicaciones</a>
                         </li>
-                         
-       <div class="nav-item">
-       <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#searchModal">
-            <i class="material-icons">search</i>
-        </button>
-       </div>
-     
+
+                        <div class="nav-item">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                data-bs-target="#searchModal">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
+
                     </ul>
                     <div class="d-flex align-items-center">
                         <a class="text-reset me-3" href="#">
@@ -274,19 +281,31 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         @foreach($categorias as $categoria)
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="{{ route('productosPorCategoria', $categoria->id) }}">{{ $categoria->nombre }}</a>
+                            <li class="nav-item dropdown">
+                                <!-- Enlace principal de la categoría -->
+                                <a class="nav-link dropdown-toggle"
+                                    href="{{ route('productosPorCategoria', $categoria->id) }}"
+                                    id="dropdown{{ $categoria->id }}" role="button" aria-expanded="false">
+                                    {{ $categoria->nombre }}
+                                </a>
+                                <!-- Subcategorías desplegables -->
+                                <ul class="dropdown-menu" aria-labelledby="dropdown{{ $categoria->id }}">
+                                    @foreach($categoria->subCategorias as $subCategoria)
+                                        <li>
+                                            <a class="dropdown-item"
+                                                href="{{ route('productosPorSubcategoria', $subCategoria->id) }}">
+                                                {{ $subCategoria->nombre }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </li>
                         @endforeach
                     </ul>
                 </div>
-
             </div>
         </nav>
         <!-- Navbar -->
@@ -294,27 +313,28 @@
         <main class="">
             @yield('content')
         </main>
-    </div> 
-     <!-- Modal de búsqueda -->
-     <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    </div>
+    <!-- Modal de búsqueda -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form action="{{route('buscar')}}" method="POST">
-            @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="searchModalLabel">Buscar Producto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="searchModalLabel">Buscar Producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" name="query" id="searchProduct"
+                            placeholder="Escriba el nombre del producto">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control" name="query" id="searchProduct" placeholder="Escriba el nombre del producto">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" >Buscar</button>
-                </div>
-            </div>
             </form>
-           
+
         </div>
     </div>
 
@@ -384,16 +404,15 @@
 @include('layout.datatables_css')
 @include('layout.datatables_js')
 <script>
-        function buscarProducto() {
-            const producto = document.getElementById('searchProduct').value;
-            if (producto) {
-                // Aquí iría la lógica para buscar el producto (puede ser una solicitud AJAX).
-                alert('Buscando el producto: ' + producto);
-            } else {
-                alert('Por favor, ingrese un nombre de producto.');
-            }
+    function buscarProducto() {
+        const producto = document.getElementById('searchProduct').value;
+        if (producto) {
+            // Aquí iría la lógica para buscar el producto (puede ser una solicitud AJAX).
+            alert('Buscando el producto: ' + producto);
+        } else {
+            alert('Por favor, ingrese un nombre de producto.');
         }
-    </script>
+    }
+</script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </html>

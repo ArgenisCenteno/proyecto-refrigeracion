@@ -17,7 +17,7 @@
                         @if(Auth::user()->hasRole('superAdmin|empleado'))
                         <form action="{{ route('ventas.export') }}" method="GET">
                                 @csrf
-                                <div class="row mb-3">
+                                <div class="row mb-3"> 
                                     <div class="col">
                                         <label for="start_date">Fecha Inicio</label>
                                         <input type="date" id="start_date" name="start_date" class="form-control"
