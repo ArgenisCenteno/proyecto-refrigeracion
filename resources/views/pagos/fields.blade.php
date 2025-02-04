@@ -83,7 +83,7 @@
                 <option value="" selected>Seleccione un método de pago</option>
                 <option value="Pago movil">Pago móvil</option>
                 <option value="Transferencia">Transferencia</option>
-                <option value="Pagar en tienda">Pagar en tienda</option>
+              
             </select>
         </div>
 

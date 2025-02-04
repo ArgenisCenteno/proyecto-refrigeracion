@@ -25,11 +25,11 @@ class PagoController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            if(Auth::user()->hasRole('superAdmin|empleado')){
+            if (Auth::user()->hasRole('superAdmin|empleado')) {
                 $data = Pago::with(['user', 'compras', 'ventas'])->get();
 
-            }else{
-            $data = Pago::with(['user', 'compras', 'ventas'])->where('creado_id', Auth::user()->id)->get();
+            } else {
+                $data = Pago::with(['user', 'compras', 'ventas'])->where('creado_id', Auth::user()->id)->get();
 
             }
 
@@ -62,10 +62,10 @@ class PagoController extends Controller
                     $viewUrl = route('pagos.edit', $row->id);
                     $deleteUrl = route('pagos.destroy', $row->id);
                     $pdfUrl = route('pagos.pdf', $row->id); // Asegúrate de que la ruta esté correcta
-                
+    
                     $buttons = '<a href="' . $viewUrl . '" class="btn btn-info btn-sm">Detalles</a>
                                 <a href="' . $pdfUrl . '" class="btn btn-success btn-sm" target="_blank">Recibo</a>';
-                    
+
                     if (Auth::user()->hasRole('superAdmin')) {
                         $buttons .= '<form action="' . $deleteUrl . '" method="POST" style="display:inline;" class="btn-delete">
                                         ' . csrf_field() . '
@@ -73,10 +73,10 @@ class PagoController extends Controller
                                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                                      </form>';
                     }
-                
+
                     return $buttons;
                 })
-                
+
                 ->rawColumns(['status', 'actions'])
                 ->make(true);
         }
@@ -115,7 +115,7 @@ class PagoController extends Controller
     {
         //dd("test");
         $pago = Pago::findOrFail($id); // Get the payment record by ID
-        $formaPagoArray = json_decode($pago->forma_pago, true); 
+        $formaPagoArray = json_decode($pago->forma_pago, true);
         return view('pagos.edit', compact('pago', 'formaPagoArray')); // Return the edit view with the payment record
     }
 
@@ -131,7 +131,7 @@ class PagoController extends Controller
         $pago = Pago::findOrFail($id); // Find the payment by ID
         $pago->status = $request->status; // Update the status
         $pago->save(); // Save the changes
-         
+
         $venta = Venta::where('pago_id', $id)->first();
         // $recibo = Recibo::where('pago_id', $id)->first();
         //   dd($recibo);
@@ -140,15 +140,15 @@ class PagoController extends Controller
             $venta->status = $request->status;
             $venta->save();
 
-            if($request->input('metodo') != null){
+            if ($request->input('metodo') != null) {
                 $bancoOrigen = $request->input('banco_origen');
                 $bancoDestino = $request->input('banco_destino');
                 $numeroReferencia = $request->input('numero_referencia');
                 $metodo = $request->input('metodo');
                 $montoDollar = 0; // Ejemplo de monto en dólares basado en la tasa de cambio
-        
+
                 $dollar = Tasa::where('name', 'Dollar')->where('status', 'Activo')->first();
-        
+
                 // Crear el array con el método de pago
                 $metodos = [
                     [
@@ -161,12 +161,19 @@ class PagoController extends Controller
                         "monto_dollar" => 0,
                     ]
                 ];
+                $referenciaExistente = Pago::where('referencia', $request->input('numero_referencia'))->first();
 
+                if ($referenciaExistente) {
+                    Alert::error('¡Error!', 'Ya existe un pago con esta referencia')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
+                    return redirect()->back(); // Regresa al formulario
+                }
+                
+                $pago->referencia = $numeroReferencia;
                 $pago->forma_pago = json_encode($metodos);
                 $pago->save();
             }
 
-          
+
         }
 
         Alert::success('¡Exito!', 'Pago actualizado exitosamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
@@ -258,6 +265,14 @@ class PagoController extends Controller
 
         //registrar pago
 
+        // Verificar si ya existe un pago con la referencia proporcionada
+        $referenciaExistente = Pago::where('referencia', $request->input('numero_referencia'))->first();
+
+        if ($referenciaExistente) {
+            Alert::error('¡Error!', 'Ya existe un pago con esta referencia')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
+            return redirect()->back(); // Regresa al formulario
+        }
+
         $pago = new Pago();
         $pago->status = 'Pendiente';
         $pago->tipo = 'Venta';
@@ -266,6 +281,7 @@ class PagoController extends Controller
         $pago->monto_neto = $total;
         $pago->tasa_dolar = $dollar->valor ?? 0;
         $pago->creado_id = $userId;
+        $pago->referencia = $numeroReferencia;
         $pago->fecha_pago = Carbon::now()->format('Y-m-d');
         $pago->impuestos = $impuesto;
         $pago->save();
@@ -351,7 +367,7 @@ class PagoController extends Controller
                 \Log::error('Error al enviar notificación: ' . $e->getMessage());
             }
         }
-        
+
         Alert::success('Exito!', 'Su orden ha sido generada exitosamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
 
         return redirect(route('pagos.index'));

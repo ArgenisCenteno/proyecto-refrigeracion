@@ -24,7 +24,8 @@ class Pago extends Model
         'comprobante_archivo',
         'creado_id',
         'porcentaje_descuento',
-        'impuestos'
+        'impuestos',
+        'referencia'
     ];
 
     public function ventas()

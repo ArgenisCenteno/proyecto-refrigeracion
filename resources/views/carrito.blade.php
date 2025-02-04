@@ -85,6 +85,9 @@
                                                                     <h3>+</h3>
                                                                 </i>
                                                             </button>
+                                                            <!-- Spinner -->
+
+
                                                         </div>
                                                         <div class="col-md-2 col-lg-2 col-xl-2 offset-lg-1">
                                                             <h6 class="mb-0">{{ number_format($item['precio'], 2) }}
@@ -96,12 +99,21 @@
                                                                 onclick="removeFromCart({{ $key }});"><i
                                                                     class="fas fa-times"></i></a>
                                                         </div>
+                                                        
+                                                        
                                                     </div>
 
                                                     <hr class="my-4">
+                                                   
                                                 @endforeach
 
                                                 <div class="pt-5">
+                                                <div id="spinner"
+                                                            style="display: none; text-align: center; margin-top: 20px;">
+                                                            <div class="spinner-border text-primary" role="status">
+                                                                <span class="visually-hidden">Cargando...</span>
+                                                            </div>
+                                                        </div>
                                                     <h6 class="mb-0"><a href="#!" class="text-body"><i
                                                                 class="fas fa-long-arrow-alt-left me-2"></i>Seguir
                                                             comprando</a>
@@ -179,44 +191,53 @@
         // Llamar a la función para actualizar el subtotal y total
         updateSubtotal(index, price);
 
+        // Mostrar el spinner
+        document.getElementById('spinner').style.display = 'block';
+
         fetch('{{ route("carrito.actualizar") }}', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    },
-    body: JSON.stringify({
-        product: product,
-        cantidad: newQuantity
-    })
-})
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            
-        } else {
-            // Mostrar un SweetAlert con el mensaje de error
-            quantityInput.value =  newQuantity - 1;
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: data.message,
-                confirmButtonColor: '#d33'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                product: product,
+                cantidad: newQuantity
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Ocultar el spinner una vez que se haya recibido la respuesta
+                document.getElementById('spinner').style.display = 'none';
+
+                if (data.success) {
+                    // Puedes agregar cualquier acción adicional en caso de éxito si es necesario
+                } else {
+                    // Mostrar un SweetAlert con el mensaje de error
+                    quantityInput.value = newQuantity - 1;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message,
+                        confirmButtonColor: '#d33'
+                    });
+                }
+            })
+            .catch(error => {
+                // Ocultar el spinner en caso de error inesperado
+                document.getElementById('spinner').style.display = 'none';
+
+                console.error('Error:', error);
+
+                // Mostrar un SweetAlert en caso de error inesperado
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error inesperado',
+                    text: 'Algo salió mal. Por favor, intenta de nuevo más tarde.',
+                    confirmButtonColor: '#d33'
+                });
             });
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-
-        // Mostrar un SweetAlert en caso de error inesperado
-        Swal.fire({
-            icon: 'error',
-            title: 'Error inesperado',
-            text: 'Algo salió mal. Por favor, intenta de nuevo más tarde.',
-            confirmButtonColor: '#d33'
-        });
-    });
-
     }
+
 
 </script>
