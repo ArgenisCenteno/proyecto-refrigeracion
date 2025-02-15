@@ -32,6 +32,8 @@ Route::get('/', function () {
     $productos = Producto::with('imagenes')->limit(6)->get(); // Obtener 6 productos de la base de datos
     return view('welcome', compact('productos'));
 });
+
+
 Route::get('/products', [CarritoController::class, 'products'])->name('products');
 Route::get('/detalles/{id}', [CarritoController::class, 'detalles'])->name('detalles');
 Route::post('/agregar/{id}', [CarritoController::class, 'agregarCarrito'])->name('carrito.agregar');

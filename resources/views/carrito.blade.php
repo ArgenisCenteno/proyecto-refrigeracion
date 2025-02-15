@@ -145,54 +145,44 @@
 @include('layout.script')
 <script src="{{asset('js/sweetalert2.js')}}"></script>
 <script>
-
     function updateSubtotal(index, price) {
-        // Obtener cantidad
         var quantity = document.getElementById('quantity-' + index).value;
 
-        // Calcular el nuevo subtotal del producto
         var subtotalProduct = quantity * price;
-
-        // Actualizar el subtotal del producto (opcional si deseas mostrar por producto)
         console.log("Subtotal del producto:", subtotalProduct);
 
-        // Recalcular el monto total general en dólares
         let totalUSD = 0;
         document.querySelectorAll('input[name="quantity"]').forEach((input, i) => {
-            const productPrice = parseFloat(input.dataset.price); // Asume que agregas un atributo data-price con el precio del producto
+            const productPrice = parseFloat(input.dataset.price);
             totalUSD += productPrice * parseInt(input.value);
         });
 
-        // Actualizar el monto total en dólares
         const totalUSDElement = document.getElementById('subtotal');
         totalUSDElement.innerText = totalUSD.toFixed(2) + ' USD';
 
-        // Calcular y actualizar el monto en bolívares
-        const dollarRate = {{ $dollar }}; // Asegúrate de que $dollar esté disponible en tu plantilla Blade
-        const totalBSElement = document.querySelector('#monto-bs'); // Cambia el selector al ID que uses para mostrar el monto en Bs
+        const dollarRate = {{ $dollar }};
+        const totalBSElement = document.querySelector('#monto-bs');
         totalBSElement.innerText = (totalUSD * dollarRate).toFixed(2) + ' BS';
     }
 
     function changeQuantity(index, change, product, price) {
-        // Obtener el input de cantidad
         var quantityInput = document.getElementById('quantity-' + index);
+        var quantityButtons = document.querySelectorAll(`#quantity-${index} + button`);
 
-        // Calcular la nueva cantidad
         var newQuantity = parseInt(quantityInput.value) + change;
 
-        // Asegurarse de que la cantidad no sea menor a 1
         if (newQuantity < 1) {
             newQuantity = 1;
         }
 
-        // Actualizar el valor del input
         quantityInput.value = newQuantity;
 
-        // Llamar a la función para actualizar el subtotal y total
-        updateSubtotal(index, price);
-
-        // Mostrar el spinner
+        // Disable buttons and show spinner
+        quantityButtons.forEach(button => button.disabled = true);
         document.getElementById('spinner').style.display = 'block';
+
+        // Update subtotal
+        updateSubtotal(index, price);
 
         fetch('{{ route("carrito.actualizar") }}', {
             method: 'POST',
@@ -207,13 +197,12 @@
         })
             .then(response => response.json())
             .then(data => {
-                // Ocultar el spinner una vez que se haya recibido la respuesta
                 document.getElementById('spinner').style.display = 'none';
+                quantityButtons.forEach(button => button.disabled = false); // Re-enable buttons
 
                 if (data.success) {
-                    // Puedes agregar cualquier acción adicional en caso de éxito si es necesario
+                    // Handle success (if any additional action is needed)
                 } else {
-                    // Mostrar un SweetAlert con el mensaje de error
                     quantityInput.value = newQuantity - 1;
                     Swal.fire({
                         icon: 'error',
@@ -224,12 +213,11 @@
                 }
             })
             .catch(error => {
-                // Ocultar el spinner en caso de error inesperado
                 document.getElementById('spinner').style.display = 'none';
+                quantityButtons.forEach(button => button.disabled = false);
 
                 console.error('Error:', error);
 
-                // Mostrar un SweetAlert en caso de error inesperado
                 Swal.fire({
                     icon: 'error',
                     title: 'Error inesperado',
@@ -238,6 +226,4 @@
                 });
             });
     }
-
-
 </script>
