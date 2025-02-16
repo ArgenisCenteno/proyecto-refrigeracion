@@ -28,7 +28,7 @@
           <div class="form-outline mb-4">
           <label class="form-label" for="form1Example23">Contraseña</label>
 
-            <input type="password" id="form1Example23" placeholder="Ingrese email" class="form-control form-control-lg @error('password') is-invalid @enderror" name="password" required />
+            <input type="password" id="form1Example23" placeholder="Ingrese contraseña" class="form-control form-control-lg @error('password') is-invalid @enderror" name="password" required />
             @error('password')
               <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
