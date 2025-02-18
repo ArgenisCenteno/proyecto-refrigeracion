@@ -83,14 +83,14 @@
             <thead>
                 <tr>
                     <th style="padding: 8px; text-align: left;">CLIENTE</th>
-                    <th style="padding: 8px; text-align: left;">VENDEDOR.</th>
+                    
                 </tr>
             </thead>
             <tbody>
 
                 <tr>
                     <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$userArray['name']}}</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{$pago->empleado->name ?? ''}}</td>
+                  
 
 
                 </tr>

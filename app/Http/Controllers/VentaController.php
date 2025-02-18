@@ -12,8 +12,10 @@ use App\Models\Tasa;
 use App\Models\Transaccion;
 use App\Models\User;
 use App\Models\Venta;
+use App\Notifications\VentaGenerada;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Notification;
 use Yajra\DataTables\DataTables;
 use Alert;
 use Illuminate\Support\Facades\Auth;
@@ -284,6 +286,8 @@ class VentaController extends Controller
             $transaccion->fecha = Carbon::now();
             $transaccion->save();
         }
+
+      
 
         Alert::success('¡Exito!', 'Venta generada exitosamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
         return redirect()->back();

@@ -357,17 +357,17 @@ class PagoController extends Controller
             } */
 
         session()->forget('cart');
-        $administradores = User::role('superAdmin')->get();
+        $administradores = User::all()->filter(function ($user) {
+            return $user->hasRole('superAdmin');
+        });
+      
+         
 
         foreach ($administradores as $admin) {
-            try {
-                $admin->notify(new VentaGenerada($venta));
-            } catch (\Exception $e) {
-                // Maneja el error, por ejemplo, registrando el error o mostrando un mensaje
-                \Log::error('Error al enviar notificación: ' . $e->getMessage());
-            }
+            $admin->notify(new VentaGenerada($venta));
+            \Log::info("Notificación enviada a: " . $admin->email);
         }
-
+        
         Alert::success('Exito!', 'Su orden ha sido generada exitosamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
 
         return redirect(route('pagos.index'));

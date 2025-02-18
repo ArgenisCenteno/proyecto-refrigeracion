@@ -41,10 +41,9 @@ class HomeController extends Controller
         $proveedores = Proveedor::count();
         $pagos = Pago::count();
 
-        $notificaciones = auth()->user()->unreadNotifications;
-
+      
         
-        return view('home', compact('ventas', 'compras', 'notificaciones' ,'proveedores' ,'usuarios', 'productos', 'categorias', 'subcategorias', 'pagos'));
+        return view('home', compact('ventas', 'compras' ,'proveedores' ,'usuarios', 'productos', 'categorias', 'subcategorias', 'pagos'));
     }
     
   

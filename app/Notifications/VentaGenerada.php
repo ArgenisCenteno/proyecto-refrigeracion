@@ -12,7 +12,7 @@ class VentaGenerada extends Notification
 
     protected $venta;
 
-    public function __construct($venta)
+    public function __construct($venta)  
     {
         $this->venta = $venta;
     }
@@ -20,16 +20,10 @@ class VentaGenerada extends Notification
     public function via($notifiable)
     {
         // Puedes usar otras vías de notificación como database o SMS
-        return ['mail', 'database'];
+        return ['database'];
     }
 
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('Se ha generado una nueva venta online.')
-                    ->action('Ver Venta', url('/ventas/' . $this->venta->id))
-                    ->line('Por favor, revisa la venta para iniciar con el procesamiento.');
-    }
+    
 
     public function toArray($notifiable)
     {

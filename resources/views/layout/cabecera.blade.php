@@ -1,4 +1,11 @@
 <!-- ======= Header ======= -->
+<style>
+  .notifications {
+    max-height: 300px;  /* Ajusta la altura máxima del dropdown */
+    overflow-y: auto;   /* Activa el scroll vertical si el contenido es más grande que el contenedor */
+    width: 400px;       /* Ajusta el ancho del dropdown si es necesario */
+}
+</style>
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
@@ -21,42 +28,42 @@
       </li><!-- End Search Icon-->
 
       <li class="nav-item dropdown">
+    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+        <i class="bi bi-bell"></i>
+        <span class="badge bg-primary badge-number">{{ Auth::user()->unreadNotifications->count() }}</span>
+    </a>
+    <!-- End Notification Icon -->
 
-        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-          <i class="bi bi-bell"></i>
-          <span class="badge bg-primary badge-number">0</span>
-        </a><!-- End Notification Icon -->
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+        <li class="dropdown-header">
+            Usted tiene {{ Auth::user()->unreadNotifications->count() }} notificaciones
+            <a href="{{ route('notificaciones.index') }}">
+                <span class="badge rounded-pill bg-primary p-2 ms-2">Ver todas</span>
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
 
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-          <li class="dropdown-header">
-            Usted tiene cuatro notificaciones
-            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todas</span></a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
- 
-           
-          {{--   <li class="notification-item">
-            <i class="bi bi-info-circle text-primary"></i>
-            <div>
-              <h4>Dicta reprehenderit</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>4 hrs. ago</p>
-            </div>
-          </li>--}}
+        <!-- Aquí mostramos las notificaciones -->
+        @foreach(Auth::user()->unreadNotifications as $notificacion)
+            <li class="notification-item">
+                <a href="{{ $notificacion->data['url'] }}">
+                    <i class="bi bi-info-circle"></i> <!-- Icono de la notificación -->
+                    <span>{{ $notificacion->data['message'] ?? 'Notificación' }}</span> <!-- Mensaje de la notificación -->
+                    <small class="text-muted">{{ $notificacion->created_at->diffForHumans() }}</small>
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+        @endforeach
 
+        <li class="dropdown-footer">
+            <a href="{{ route('notificaciones.index') }}">Show all notifications</a>
+        </li>
+    </ul>
+    <!-- End Notification Dropdown Items -->
+</li>
 
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li class="dropdown-footer">
-            <a href="#">Show all notifications</a>
-          </li>
+      <!-- End Notification Nav -->
 
-        </ul><!-- End Notification Dropdown Items -->
-
-      </li><!-- End Notification Nav -->
 
 
       <li class="nav-item dropdown pe-3">
@@ -98,7 +105,7 @@
           <li class="nav-item">
             <a href="{{ route('logout') }}" class="nav-link"
               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-             Salir
+              Salir
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
               @csrf

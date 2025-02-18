@@ -45,164 +45,7 @@
             /* Alinea el submenú con el menú principal */
             transition: 0.3s ease-in-out;
         }
-
-        /*--------------------------------------------------------------
-# Global Footer
---------------------------------------------------------------*/
-        .footer {
-            color: var(--default-color);
-            background-color: var(--background-color);
-            font-size: 14px;
-            padding-bottom: 50px;
-            position: relative;
-        }
-
-        .footer .footer-newsletter {
-            background-color: color-mix(in srgb, var(--heading-color), transparent 95%);
-            padding: 50px 0;
-        }
-
-        .footer .footer-newsletter h4 {
-            font-size: 24px;
-        }
-
-        .footer .footer-newsletter .newsletter-form {
-            margin-top: 30px;
-            margin-bottom: 15px;
-            padding: 6px 8px;
-            position: relative;
-            background-color: color-mix(in srgb, var(--background-color), transparent 50%);
-            border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-            box-shadow: 0px 2px 25px rgba(0, 0, 0, 0.1);
-            display: flex;
-            transition: 0.3s;
-            border-radius: 50px;
-        }
-
-        .footer .footer-newsletter .newsletter-form:focus-within {
-            border-color: var(--accent-color);
-        }
-
-        .footer .footer-newsletter .newsletter-form input[type=email] {
-            border: 0;
-            padding: 4px;
-            width: 100%;
-            background-color: color-mix(in srgb, var(--background-color), transparent 50%);
-            color: var(--default-color);
-        }
-
-        .footer .footer-newsletter .newsletter-form input[type=email]:focus-visible {
-            outline: none;
-        }
-
-        .footer .footer-newsletter .newsletter-form input[type=submit] {
-            border: 0;
-            font-size: 16px;
-            padding: 0 20px;
-            margin: -7px -8px -7px 0;
-            background: var(--accent-color);
-            color: var(--contrast-color);
-            transition: 0.3s;
-            border-radius: 50px;
-        }
-
-        .footer .footer-newsletter .newsletter-form input[type=submit]:hover {
-            background: color-mix(in srgb, var(--accent-color), transparent 20%);
-        }
-
-        .footer .footer-top {
-            padding-top: 50px;
-        }
-
-        .footer .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid color-mix(in srgb, var(--default-color), transparent 50%);
-            font-size: 16px;
-            color: color-mix(in srgb, var(--default-color), transparent 20%);
-            margin-right: 10px;
-            transition: 0.3s;
-        }
-
-        .footer .social-links a:hover {
-            color: var(--accent-color);
-            border-color: var(--accent-color);
-        }
-
-        .footer h4 {
-            font-size: 16px;
-            font-weight: bold;
-            position: relative;
-            padding-bottom: 12px;
-        }
-
-        .footer .footer-links {
-            margin-bottom: 30px;
-        }
-
-        .footer .footer-links ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer .footer-links ul i {
-            margin-right: 3px;
-            font-size: 12px;
-            line-height: 0;
-            color: var(--accent-color);
-        }
-
-        .footer .footer-links ul li {
-            padding: 10px 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .footer .footer-links ul li:first-child {
-            padding-top: 0;
-        }
-
-        .footer .footer-links ul a {
-            display: inline-block;
-            color: color-mix(in srgb, var(--default-color), transparent 20%);
-            line-height: 1;
-        }
-
-        .footer .footer-links ul a:hover {
-            color: var(--accent-color);
-        }
-
-        .footer .footer-about a {
-            color: var(--heading-color);
-            font-size: 28px;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-family: var(--heading-font);
-        }
-
-        .footer .footer-contact p {
-            margin-bottom: 5px;
-        }
-
-        .footer .copyright {
-            padding-top: 25px;
-            padding-bottom: 25px;
-            border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-        }
-
-        .footer .copyright p {
-            margin-bottom: 0;
-        }
-
-        .footer .credits {
-            margin-top: 6px;
-            font-size: 13px;
-        }
+ 
     </style>
 
     <!-- Scripts -->
@@ -338,65 +181,58 @@
         </div>
     </div>
 
-    <footer id="footer" class="footer" style="margin-top: 220px !important;">
-
-
-
-        <div class="container footer-top">
-            <div class="row gy-4">
-                <div class="col-lg-4 col-md-6 footer-about">
-                    <a href="index.html" class="d-flex align-items-center">
-                        <span class="sitename">FRIONAX</span>
-                    </a>
-                    <div class="footer-contact pt-3">
-                        <p>Calle Andres Bello</p>
-                        <p>Punta de Mata</p>
-                        <p class="mt-3"><strong>Telefono:</strong> <span>04148079255</span></p>
-                        <p><strong>Email:</strong> <span>atencionalcliente@frionax.com</span></p>
-                    </div>
+    <footer id="footer" class="footer bg-light py-4">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-4 col-md-6">
+                <a href="index.html" class="d-flex align-items-center text-decoration-none">
+                    <span class="h4 fw-bold">FRIONAX</span>
+                </a>
+                <div class="pt-3">
+                    <p class="mb-1">Calle Andres Bello</p>
+                    <p class="mb-1">Punta de Mata</p>
+                    <p class="mb-1"><strong>Teléfono:</strong> 04148079255</p>
+                    <p><strong>Email:</strong> atencionalcliente@frionax.com</p>
                 </div>
+            </div>
 
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Principal</h4>
-                    <ul>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">About </a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Servicios</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Terminos y Condiciones</a></li>
-                    </ul>
+            <div class="col-lg-2 col-md-3">
+                <h5>Principal</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-dark">Home</a></li>
+                    <li><a href="#" class="text-dark">About</a></li>
+                    <li><a href="#" class="text-dark">Servicios</a></li>
+                    <li><a href="#" class="text-dark">Términos y Condiciones</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-3">
+                <h5>Nuestros servicios</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-dark">Repuestos</a></li>
+                    <li><a href="#" class="text-dark">Mantenimiento</a></li>
+                    <li><a href="#" class="text-dark">Refrigeración</a></li>
+                    <li><a href="#" class="text-dark">Electricidad</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-12">
+                <h5>¡Síguenos en nuestras redes!</h5>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-dark"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="text-dark"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-dark"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark"><i class="bi bi-linkedin"></i></a>
                 </div>
-
-                <div class="col-lg-2 col-md-3 footer-links">
-                    <h4>Nuestros servicios</h4>
-                    <ul>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Repuestos</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Mantenimiento</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Refrigeración</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="#">Electricidad</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-4 col-md-12">
-                    <h4>¡Síguenos en nuestras redes!</h4>
-
-                    <div class="social-links d-flex">
-                        <a href=""><i class="bi bi-twitter-x"></i></a>
-                        <a href=""><i class="bi bi-facebook"></i></a>
-                        <a href=""><i class="bi bi-instagram"></i></a>
-                        <a href=""><i class="bi bi-linkedin"></i></a>
-                    </div>
-                </div>
-
             </div>
         </div>
 
-        <div class="container copyright text-center mt-4">
-            <p>© <span>Copyright</span> <strong class="px-1 sitename">Frionax</strong> <span>All Rights Reserved</span>
-            </p>
-
+        <div class="text-center mt-4">
+            <p class="mb-0">© Copyright <strong>Frionax</strong> All Rights Reserved</p>
         </div>
+    </div>
+</footer>
 
-    </footer>
 </body>
 @yield('js')
 @include('layout.script')
