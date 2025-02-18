@@ -1,8 +1,42 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+         .divider:after,
+        .divider:before {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+        main {
+    min-height: 100vh;  /* Asegura que el main ocupe al menos la altura de la pantalla */
+}
 
-<section class="h-100 py-5">
+
+        .h-custom {
+            height: calc(100% - 73px);
+        }
+
+        @media (max-width: 450px) {
+            .h-custom {
+                height: 100%;
+            }
+        }
+
+        body {
+            font-family: "Roboto" !important;
+        }
+
+        .navbar-nav .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+            /* Alinea el submenú con el menú principal */
+            transition: 0.3s ease-in-out;
+        }
+ 
+</style>
+<section class="h-100 py-5" style="margin-bottom: 40rem !important;">
     <div class="container-fluid">
         <div class="row d-flex justify-content-center">
             @foreach ($productos as $similar)

@@ -24,6 +24,10 @@
             height: 1px;
             background: #eee;
         }
+        main {
+    min-height: 100vh;  /* Asegura que el main ocupe al menos la altura de la pantalla */
+}
+
 
         .h-custom {
             height: calc(100% - 73px);
@@ -153,35 +157,11 @@
         </nav>
         <!-- Navbar -->
 
-        <main class="">
-            @yield('content')
-        </main>
-    </div>
-    <!-- Modal de búsqueda -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form action="{{route('buscar')}}" method="POST">
-                @csrf
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="searchModalLabel">Buscar Producto</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" class="form-control" name="query" id="searchProduct"
-                            placeholder="Escriba el nombre del producto">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Buscar</button>
-                    </div>
-                </div>
-            </form>
+        <main class="pt-5">
+    @yield('content')
+</main>
 
-        </div>
-    </div>
-
-    <footer id="footer" class="footer bg-light py-4">
+<footer id="footer" class="footer bg-light py-4 mt-auto">
     <div class="container">
         <div class="row gy-4">
             <div class="col-lg-4 col-md-6">
@@ -233,6 +213,32 @@
     </div>
 </footer>
 
+    </div>
+    <!-- Modal de búsqueda -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="{{route('buscar')}}" method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="searchModalLabel">Buscar Producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" name="query" id="searchProduct"
+                            placeholder="Escriba el nombre del producto">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+  
 </body>
 @yield('js')
 @include('layout.script')
